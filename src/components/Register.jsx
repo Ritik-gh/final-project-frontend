@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import baseUrl from "../config.js";
 const Register = () => {
+  const history = useHistory();
+  const location = useLocation();
   function handleRegister(e) {
     e.preventDefault();
     const firstName = document.getElementById("first_name");
@@ -15,13 +18,11 @@ const Register = () => {
       firstName.nextElementSibling.innerText = "First name can't be empty";
     } else {
       firstName.nextElementSibling.innerText = "";
-      firstName.value = "";
     }
     if (!lastName.value) {
       lastName.nextElementSibling.innerText = "Last name can't be empty";
     } else {
       lastName.nextElementSibling.innerText = "";
-      lastName.value = "";
     }
     if (!email.value) {
       email.nextElementSibling.innerText = "Email can't be empty";
@@ -33,12 +34,11 @@ const Register = () => {
       email.nextElementSibling.innerText = "Enter a valid email!";
     } else {
       email.nextElementSibling.innerText = "";
-      email.value = "";
     }
     if (!phone.value) {
       phone.nextElementSibling.innerText = "Phone number can't be empty";
     } else if (
-      !/^([+0-9]{2,4})?( |-)?([0-9]{3})( |-)?([0-9]{3})( |-)?([0-9]{4})$/.test(
+      !/^(\+[0-9]{1,3})?( |-)?([0-9]{3})( |-)?([0-9]{3})( |-)?([0-9]{4})$/.test(
         phone.value
       )
     ) {
@@ -46,7 +46,6 @@ const Register = () => {
         "Enter a valid 10 digit phone number!";
     } else {
       phone.nextElementSibling.innerText = "";
-      phone.value = "";
     }
     if (!password.value) {
       password.nextElementSibling.innerText = "password can't be empty";
@@ -55,12 +54,10 @@ const Register = () => {
         password.value
       )
     ) {
-      console.log(password.value);
       password.nextElementSibling.innerText =
         "Your password must include at least 8 numbers. It must be case sensitive, having at least one number, alphabet and character";
     } else {
       password.nextElementSibling.innerText = "";
-      password.value = "";
     }
     if (!confirmPassword.value) {
       confirmPassword.nextElementSibling.innerText =
@@ -71,7 +68,6 @@ const Register = () => {
     } else {
       confirmPassword.nextElementSibling.innerText = "";
       formIsValid = true;
-      confirmPassword.value = "";
     }
 
     if (formIsValid) {
@@ -87,7 +83,20 @@ const Register = () => {
           phone: phone.value,
           password: password.value,
         }),
-      });
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          console.log(data);
+          window.sessionStorage.data = data;
+          if (data == "exists") {
+            window.location.reload();
+          } else {
+            history.push("/login");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
   return (
