@@ -1,0 +1,12 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: #111;
+  color: #eee;
+}
+
+/*# sourceMappingURL=app.css.map */
