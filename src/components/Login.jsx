@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import baseUrl from "../config.js";
 import { useHistory, useLocation } from "react-router-dom";
+import { Auth } from "../App.js";
 
-const Login = () => {
+const Login = (props) => {
+  const auth = useContext(Auth);
   const history = useHistory();
   function handleLogin(e) {
     e.preventDefault();
@@ -47,15 +49,15 @@ const Login = () => {
       })
         .then((response) => response.text())
         .then((data) => {
-          console.log(data);
-          window.sessionStorage.data = data;
           if (data == "invalid email") {
             email.nextElementSibling.innerText =
               "Seems like there is no user with this email, try registering first";
           } else if (data == "invalid password") {
             password.nextElementSibling.innerText = "Password didn't match";
           } else if (data == "valid") {
-            window.sessionStorage.user = "logged";
+            window.localStorage.user = email.value;
+            // props.setAuth(true);
+            auth.setAuth(true);
             history.push("/");
           }
         })
@@ -67,24 +69,28 @@ const Login = () => {
   return (
     <>
       <div className="container">
-        <form onSubmit={handleLogin}>
-          <label>
+        <form
+          onSubmit={handleLogin}
+          className="d-flex flex-column justify-content-center align-items-center"
+        >
+          <label className="mb-3">
             <input
               type="email"
               name=""
               id="email"
               placeholder="Enter your email address"
               autoFocus
-              autocomplete="new-password"
+              autoComplete="new-password"
             />
             <p />
           </label>
-          <label>
+          <label className="mb-3">
             <input
               type="password"
               name=""
               id="password"
               placeholder="Enter your password"
+              autoComplete="new-password"
             />
             <p />
           </label>

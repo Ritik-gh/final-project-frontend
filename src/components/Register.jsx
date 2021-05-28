@@ -102,8 +102,11 @@ const Register = () => {
   return (
     <>
       <div className="container">
-        <form onSubmit={handleRegister}>
-          <label>
+        <form
+          onSubmit={handleRegister}
+          className="d-flex flex-column justify-content-center align-items-center"
+        >
+          <label className="mb-3">
             <input
               type="text"
               id="first_name"
@@ -113,7 +116,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label>
+          <label className="mb-3">
             <input
               type="text"
               id="last_name"
@@ -122,7 +125,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label>
+          <label className="mb-3">
             <input
               type="email"
               id="email"
@@ -131,7 +134,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label>
+          <label className="mb-3">
             <input
               type="number"
               id="phone"
@@ -140,7 +143,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label>
+          <label className="mb-3">
             <input
               type="password"
               id="password"
@@ -149,7 +152,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label>
+          <label className="mb-3">
             <input
               type="password"
               id="confirm_password"
