@@ -31,6 +31,14 @@ const Header = () => {
               Logout
             </span>
           )}
+          <button
+            onClick={() => {
+              !auth.isAuth ? history.push("/login") : history.push("/post");
+            }}
+            className="btn-v1"
+          >
+            POST
+          </button>
         </section>
       </header>
     </>

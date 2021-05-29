@@ -3,7 +3,7 @@ import sampleImageOne from "../../assets/images/sample-1.jpg";
 function PostCard() {
   return (
     <>
-      <article>
+      <article className="post-card">
         <figure>
           <img src={sampleImageOne} alt="" className="w-100" />
         </figure>
