@@ -19,10 +19,10 @@ const Home = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <section className="row">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-            <div className="col-3">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(() => (
+            <div className="col-6 col-md-4 col-xl-3">
               <PostCard />
             </div>
           ))}

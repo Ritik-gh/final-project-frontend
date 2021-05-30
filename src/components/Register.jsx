@@ -106,7 +106,7 @@ const Register = () => {
           onSubmit={handleRegister}
           className="d-flex flex-column justify-content-center align-items-center"
         >
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="text"
               id="first_name"
@@ -116,7 +116,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="text"
               id="last_name"
@@ -125,7 +125,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="email"
               id="email"
@@ -134,7 +134,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="number"
               id="phone"
@@ -143,7 +143,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="password"
               id="password"
@@ -152,7 +152,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="password"
               id="confirm_password"
@@ -161,7 +161,7 @@ const Register = () => {
             />
             <p />
           </label>
-          <button className="btn btn-primary" type="submit">
+          <button className="btn-v1" type="submit">
             Submit
           </button>
         </form>

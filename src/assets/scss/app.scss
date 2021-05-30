@@ -14,10 +14,19 @@ $light-4: #dfdfdf;
   box-sizing: border-box;
 }
 
-body {
-  background: $light-4;
-  color: $dark-3;
+// fonts
+@font-face {
+  font-family: CascadiaCode;
+  src: url("../fonts/CascadiaCode.ttf");
+}
 
+body {
+  background: $light-2;
+  color: $dark-3;
+  font-family: CascadiaCode;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
   p,
   figure {
     margin: 0;
@@ -41,40 +50,139 @@ body {
     box-shadow 0.5s, transform 0.5s;
 
   &:hover {
-    box-shadow: 2.5px 2.5px rgba($dark-3, 0.8);
+    box-shadow: 2.5px 2.5px rgba($dark-2, 1);
+  }
+
+  &.inactive {
+    background-color: $light-3;
+    &:hover {
+      background-color: $primary;
+    }
+  }
+
+  &.disabled {
+    background-color: $dark-1;
+    color: $light-4;
+    cursor: default;
+    pointer-events: none;
   }
 }
 
+// post card
 .post-card {
+  background-color: $light-3;
   cursor: pointer;
-  margin-bottom: 32px;
+  margin-bottom: clamp(16px, 2vw, 32px);
   transition: box-shadow 0.5s;
   border-radius: 5px;
+  font-size: clamp(10px, 0.8vw, 16px);
   &:hover {
-    box-shadow: 5px 5px rgb(200, 200, 200);
+    box-shadow: 5px 5px rgba($dark-2, 1);
   }
   img {
     border-radius: 5px;
   }
+  > div {
+    padding: 8px;
+  }
 }
 
-.file-uploader {
-  position: relative;
-  input {
-    visibility: hidden;
-    height: 0.1px;
-    width: 0.1px;
+// input
+.form-input {
+  width: 100%;
+  input,
+  textarea {
+    height: 50px;
+    font-size: 16px;
+    width: 100%;
+    min-width: 200px;
+    border-radius: 8px;
+    padding: 8px 16px;
+    background-color: $light-3;
+    color: $dark-3;
+    border: 2px solid $dark-1;
+    margin-top: 4px;
+    transition: box-shadow 0.5s;
+    &:focus,
+    &:hover {
+      box-shadow: 3px 3px $dark-3;
+      outline: none;
+    }
   }
-  label {
-    width: 400px;
-    height: 300px;
-    background: $light-2;
-    color: $light-1;
+  textarea {
+    height: auto;
+  }
+  .btn-v1 {
+    margin-top: 4px;
+    margin-right: 16px;
+  }
+}
+
+// header
+header {
+  background-color: $light-3;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 32px;
+  span {
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.image-uploader {
+  position: relative;
+  width: 100%;
+  height: clamp(100px, 30vh, 300px);
+  background: lighten($primary, 20%);
+  color: $light-1;
+  input {
+    // visibility: hidden;
+    opacity: 0;
+    // height: 100%;
+    // width: 100%;
+    display: none;
+    color: $dark-2;
   }
   .upload-status {
     position: absolute;
     top: 50%;
     left: 50%;
+    color: $dark-3;
     transform: translate(-50%, -50%);
+  }
+  &.supports-advance-upload {
+    border: 2px dashed $dark-1;
+    outline-offset: 10px;
+    background-color: rgba($primary, 1);
+  }
+  &.is-dragover {
+    background-color: $light-1;
+  }
+}
+
+// forms
+form {
+  label {
+    margin-bottom: clamp(16px, 2vw, 32px);
+  }
+}
+
+// media queries
+@media (max-width: 767px) {
+  .post-card {
+    > div {
+      padding: 4px;
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .container-fluid {
+    padding-left: 150px;
+    padding-right: 150px;
   }
 }

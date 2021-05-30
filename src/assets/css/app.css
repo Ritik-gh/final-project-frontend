@@ -4,9 +4,17 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: CascadiaCode;
+  src: url("../fonts/CascadiaCode.ttf");
+}
 body {
-  background: #dfdfdf;
+  background: #f9f9f9;
   color: #131313;
+  font-family: CascadiaCode;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
 }
 body p,
 body figure {
@@ -28,41 +36,127 @@ body figure {
   transition: color 0.5s, background-color 0.5s, border-color 0.5s, box-shadow 0.5s, transform 0.5s;
 }
 .btn-v1:hover {
-  box-shadow: 2.5px 2.5px rgba(19, 19, 19, 0.8);
+  box-shadow: 2.5px 2.5px #202020;
+}
+.btn-v1.inactive {
+  background-color: #ececec;
+}
+.btn-v1.inactive:hover {
+  background-color: #0ae8ca;
+}
+.btn-v1.disabled {
+  background-color: #2d2d2d;
+  color: #dfdfdf;
+  cursor: default;
+  pointer-events: none;
 }
 
 .post-card {
+  background-color: #ececec;
   cursor: pointer;
-  margin-bottom: 32px;
+  margin-bottom: clamp(16px, 2vw, 32px);
   transition: box-shadow 0.5s;
   border-radius: 5px;
+  font-size: clamp(10px, 0.8vw, 16px);
 }
 .post-card:hover {
-  box-shadow: 5px 5px #c8c8c8;
+  box-shadow: 5px 5px #202020;
 }
 .post-card img {
   border-radius: 5px;
 }
+.post-card > div {
+  padding: 8px;
+}
 
-.file-uploader {
+.form-input {
+  width: 100%;
+}
+.form-input input,
+.form-input textarea {
+  height: 50px;
+  font-size: 16px;
+  width: 100%;
+  min-width: 200px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background-color: #ececec;
+  color: #131313;
+  border: 2px solid #2d2d2d;
+  margin-top: 4px;
+  transition: box-shadow 0.5s;
+}
+.form-input input:focus, .form-input input:hover,
+.form-input textarea:focus,
+.form-input textarea:hover {
+  box-shadow: 3px 3px #131313;
+  outline: none;
+}
+.form-input textarea {
+  height: auto;
+}
+.form-input .btn-v1 {
+  margin-top: 4px;
+  margin-right: 16px;
+}
+
+header {
+  background-color: #ececec;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 32px;
+}
+header span {
+  cursor: pointer;
+}
+header span:hover {
+  color: #0ae8ca;
+}
+
+.image-uploader {
   position: relative;
-}
-.file-uploader input {
-  visibility: hidden;
-  height: 0.1px;
-  width: 0.1px;
-}
-.file-uploader label {
-  width: 400px;
-  height: 300px;
-  background: #f9f9f9;
+  width: 100%;
+  height: clamp(100px, 30vh, 300px);
+  background: #60f8e4;
   color: #ffffff;
 }
-.file-uploader .upload-status {
+.image-uploader input {
+  opacity: 0;
+  display: none;
+  color: #202020;
+}
+.image-uploader .upload-status {
   position: absolute;
   top: 50%;
   left: 50%;
+  color: #131313;
   transform: translate(-50%, -50%);
+}
+.image-uploader.supports-advance-upload {
+  border: 2px dashed #2d2d2d;
+  outline-offset: 10px;
+  background-color: #0ae8ca;
+}
+.image-uploader.is-dragover {
+  background-color: #ffffff;
+}
+
+form label {
+  margin-bottom: clamp(16px, 2vw, 32px);
+}
+
+@media (max-width: 767px) {
+  .post-card > div {
+    padding: 4px;
+  }
+}
+@media (min-width: 1200px) {
+  .container-fluid {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */

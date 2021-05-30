@@ -73,7 +73,7 @@ const Login = (props) => {
           onSubmit={handleLogin}
           className="d-flex flex-column justify-content-center align-items-center"
         >
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="email"
               name=""
@@ -84,7 +84,7 @@ const Login = (props) => {
             />
             <p />
           </label>
-          <label className="mb-3">
+          <label className="mb-3 form-input">
             <input
               type="password"
               name=""
@@ -94,7 +94,7 @@ const Login = (props) => {
             />
             <p />
           </label>
-          <button className="btn btn-primary" type="submit">
+          <button className="btn-v1" type="submit">
             Submit
           </button>
         </form>

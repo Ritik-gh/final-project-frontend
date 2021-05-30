@@ -6,11 +6,19 @@ const Header = () => {
   const auth = useContext(Auth);
   return (
     <>
-      <header className="container">
+      <header className="container-fluid">
         <section className="d-flex justify-content-evenly align-items-center py-3">
           <span className="" onClick={() => history.push("/")}>
             Home
           </span>
+          <button
+            onClick={() => {
+              !auth.isAuth ? history.push("/login") : history.push("/post");
+            }}
+            className="btn-v1"
+          >
+            POST
+          </button>
           {!auth.isAuth ? (
             <>
               <span className="" onClick={() => history.push("/login")}>
@@ -31,14 +39,6 @@ const Header = () => {
               Logout
             </span>
           )}
-          <button
-            onClick={() => {
-              !auth.isAuth ? history.push("/login") : history.push("/post");
-            }}
-            className="btn-v1"
-          >
-            POST
-          </button>
         </section>
       </header>
     </>
