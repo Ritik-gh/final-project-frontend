@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
-import baseUrl from "../config.js";
+import baseUrl from "../../config.js";
 import { useHistory, useLocation } from "react-router-dom";
-import { Auth } from "../App.js";
+import { Auth } from "../../App.js";
+import { Modal } from "react-bootstrap";
 
 const Login = (props) => {
   const auth = useContext(Auth);
@@ -68,37 +69,39 @@ const Login = (props) => {
   }
   return (
     <>
-      <div className="container">
-        <form
-          onSubmit={handleLogin}
-          className="d-flex flex-column justify-content-center align-items-center"
-        >
-          <label className="mb-3 form-input">
-            <input
-              type="email"
-              name=""
-              id="email"
-              placeholder="Enter your email address"
-              autoFocus
-              autoComplete="new-password"
-            />
-            <p />
-          </label>
-          <label className="mb-3 form-input">
-            <input
-              type="password"
-              name=""
-              id="password"
-              placeholder="Enter your password"
-              autoComplete="new-password"
-            />
-            <p />
-          </label>
-          <button className="btn-v1" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
+      <Modal show={props.show} onHide={() => props.closeFunc(false)} centered>
+        <div className="container">
+          <form
+            onSubmit={handleLogin}
+            className="d-flex flex-column justify-content-center align-items-center"
+          >
+            <label className="mb-3 form-input">
+              <input
+                type="email"
+                name=""
+                id="email"
+                placeholder="Enter your email address"
+                autoFocus
+                autoComplete="new-password"
+              />
+              <p />
+            </label>
+            <label className="mb-3 form-input">
+              <input
+                type="password"
+                name=""
+                id="password"
+                placeholder="Enter your password"
+                autoComplete="new-password"
+              />
+              <p />
+            </label>
+            <button className="btn-v1" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      </Modal>
     </>
   );
 };

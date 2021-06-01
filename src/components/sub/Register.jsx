@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import baseUrl from "../config.js";
-const Register = () => {
+import baseUrl from "../../config.js";
+import { Modal } from "react-bootstrap";
+const Register = (props) => {
   const history = useHistory();
   const location = useLocation();
   function handleRegister(e) {
@@ -101,71 +102,73 @@ const Register = () => {
   }
   return (
     <>
-      <div className="container">
-        <form
-          onSubmit={handleRegister}
-          className="d-flex flex-column justify-content-center align-items-center"
-        >
-          <label className="mb-3 form-input">
-            <input
-              type="text"
-              id="first_name"
-              placeholder="Enter your first name"
-              autoComplete="off"
-              autoFocus
-            />
-            <p />
-          </label>
-          <label className="mb-3 form-input">
-            <input
-              type="text"
-              id="last_name"
-              placeholder="Enter your last name"
-              autoComplete="off"
-            />
-            <p />
-          </label>
-          <label className="mb-3 form-input">
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter your email address"
-              autoComplete="off"
-            />
-            <p />
-          </label>
-          <label className="mb-3 form-input">
-            <input
-              type="number"
-              id="phone"
-              placeholder="Enter your phone number"
-              autoComplete="off"
-            />
-            <p />
-          </label>
-          <label className="mb-3 form-input">
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              autoComplete="new-password"
-            />
-            <p />
-          </label>
-          <label className="mb-3 form-input">
-            <input
-              type="password"
-              id="confirm_password"
-              placeholder="Confirm your password"
-              autoComplete="off"
-            />
-            <p />
-          </label>
-          <button className="btn-v1" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
+      <Modal show={props.show} centered onHide={() => props.closeFunc(false)}>
+        <div className="container">
+          <form
+            onSubmit={handleRegister}
+            className="d-flex flex-column justify-content-center align-items-center"
+          >
+            <label className="mb-3 form-input">
+              <input
+                type="text"
+                id="first_name"
+                placeholder="Enter your first name"
+                autoComplete="off"
+                autoFocus
+              />
+              <p />
+            </label>
+            <label className="mb-3 form-input">
+              <input
+                type="text"
+                id="last_name"
+                placeholder="Enter your last name"
+                autoComplete="off"
+              />
+              <p />
+            </label>
+            <label className="mb-3 form-input">
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email address"
+                autoComplete="off"
+              />
+              <p />
+            </label>
+            <label className="mb-3 form-input">
+              <input
+                type="number"
+                id="phone"
+                placeholder="Enter your phone number"
+                autoComplete="off"
+              />
+              <p />
+            </label>
+            <label className="mb-3 form-input">
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autoComplete="new-password"
+              />
+              <p />
+            </label>
+            <label className="mb-3 form-input">
+              <input
+                type="password"
+                id="confirm_password"
+                placeholder="Confirm your password"
+                autoComplete="off"
+              />
+              <p />
+            </label>
+            <button className="btn-v1" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      </Modal>
     </>
   );
 };
