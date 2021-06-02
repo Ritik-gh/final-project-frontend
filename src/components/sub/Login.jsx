@@ -59,7 +59,7 @@ const Login = (props) => {
             window.localStorage.user = email.value;
             // props.setAuth(true);
             auth.setAuth(true);
-            history.push("/");
+            props.closeFunc(false);
           }
         })
         .catch((err) => {
@@ -69,8 +69,18 @@ const Login = (props) => {
   }
   return (
     <>
-      <Modal show={props.show} onHide={() => props.closeFunc(false)} centered>
-        <div className="container">
+      <Modal
+        show={props.show}
+        onHide={() => props.closeFunc(false)}
+        centered
+        className="custom-modal"
+      >
+        <div className="wrapper">
+          <h1 className="modal-title">Login</h1>
+          <h2 className="modal-subtitle">
+            {props.subtitle ||
+              `Login to post your ad or to purchase the items you're interested in`}
+          </h2>
           <form
             onSubmit={handleLogin}
             className="d-flex flex-column justify-content-center align-items-center"

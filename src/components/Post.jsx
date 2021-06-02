@@ -1,5 +1,12 @@
 import { useEffect, useRef } from "react";
 const Post = () => {
+  const itemTitle = useRef(null);
+  const itemAge = useRef(null);
+  const itemLocation = useRef(null);
+  const basePrice = useRef(null);
+  const itemDescription = useRef(null);
+  const itemImg = useRef(null);
+
   const advanceUploadSupported = (function () {
     let div = document.createElement("div");
     return (
@@ -35,73 +42,80 @@ const Post = () => {
           imageUploaderRef.current.children[0].files = e.dataTransfer.files;
           imageUploaderRef.current.children[1].innerHTML =
             e.dataTransfer.files[0].name;
+          itemImg = e.dataTransfer.files[0].name;
+        }
+      });
+      imageUploaderRef.current.addEventListener("change", function (e) {
+        e.preventDefault();
+        if (imageUploaderRef.current.children[0].files.length) {
+          imageUploaderRef.current.children[1].innerHTML =
+            imageUploaderRef.current.children[0].files[0].name;
+          itemImg = imageUploaderRef.current.children[0].files[0].name;
         }
       });
     }
   });
+
+  function handlePost(e) {
+    e.preventDefault();
+  }
   return (
     <>
       <div className="container">
-        <form className="d-flex flex-column align-items-center">
+        <form
+          className="d-flex flex-column align-items-center"
+          onSubmit={handlePost}
+        >
           <label className="form-input">
-            Select the property type
-            <div className="d-flex align-items-center">
-              <button className="btn-v1 inactive" type="button">
-                FLAT
-              </button>
-              <button className="btn-v1 inactive" type="button">
-                HOUSE
-              </button>
-            </div>
+            Give a suitable title for the item
+            <input
+              type="text"
+              name=""
+              placeholder="Type in the title"
+              id=""
+              value={itemTitle}
+            />
           </label>
           <label htmlFor="" className="form-input">
-            How many rooms it has?
-            <div className="d-flex align-items-center">
-              <button className="btn-v1 inactive" type="button">
-                1
-              </button>
-              <button className="btn-v1 inactive" type="button">
-                2
-              </button>
-              <button className="btn-v1 inactive" type="button">
-                3
-              </button>
-              <button className="btn-v1 inactive" type="button">
-                4
-              </button>
-              <button className="btn-v1 inactive" type="button">
-                5
-              </button>
-            </div>
+            How many years old is the item?
+            <input
+              type="number"
+              name=""
+              placeholder="Type in the item age in years"
+              id=""
+              value={itemAge}
+            />
           </label>
           <label className="form-input">
-            What is the location of the property?
+            What is your location?
             <input
               type="search"
               name=""
               placeholder="Type in the location"
               id=""
+              value={itemLocation}
             />
-          </label>
-          <label className="form-input">
-            What is the area of the property?
-            <input type="number" name="" placeholder="type in the area" id="" />
           </label>
           <label className="form-input">
             What is the base price you want?
             <input
-              type="numbe"
-              placeholder="type in the base price here"
+              type="number"
+              placeholder="Type in the base price here(in rupees)"
             ></input>
           </label>
           <label className="form-input">
-            Describe your property
+            Describe your item
             <textarea
               rows="10"
               placeholder="Write something about your property"
+              value={itemDescription}
             ></textarea>
           </label>
-          <label className="image-uploader" ref={imageUploaderRef}>
+          <label
+            className="image-uploader"
+            ref={imageUploaderRef}
+            value={itemImg}
+          >
             <input
               type="file"
               name=""

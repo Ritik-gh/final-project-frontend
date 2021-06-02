@@ -20,6 +20,12 @@ $light-4: #dfdfdf;
   src: url("../fonts/CascadiaCode.ttf");
 }
 
+// scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+  height: 2px;
+}
+
 body {
   background: $light-2;
   color: $dark-3;
@@ -75,7 +81,7 @@ body {
   margin-bottom: clamp(16px, 2vw, 32px);
   transition: box-shadow 0.5s;
   border-radius: 5px;
-  font-size: clamp(10px, 0.8vw, 16px);
+  font-size: clamp(10px, 1vw, 16px);
   &:hover {
     box-shadow: 5px 5px rgba($dark-2, 1);
   }
@@ -134,11 +140,12 @@ header {
   }
 }
 
+// drag n drop
 .image-uploader {
   position: relative;
   width: 100%;
   height: clamp(100px, 30vh, 300px);
-  background: lighten($primary, 20%);
+  background: $light-3;
   color: $light-1;
   input {
     // visibility: hidden;
@@ -156,9 +163,9 @@ header {
     transform: translate(-50%, -50%);
   }
   &.supports-advance-upload {
-    border: 2px dashed $dark-1;
-    outline-offset: 10px;
-    background-color: rgba($primary, 1);
+    outline: 2px dashed $dark-1;
+    outline-offset: -15px;
+    background-color: $light-3;
   }
   &.is-dragover {
     background-color: $light-1;
@@ -172,12 +179,39 @@ form {
   }
 }
 
+// custom-modal
+.custom-modal .modal-content {
+  background-color: transparent;
+  border: none;
+  .wrapper {
+    padding: clamp(16px, 2vw, 32px);
+    border-radius: 16px;
+    background: $light-2;
+    color: $dark-3;
+  }
+  .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .modal-subtitle {
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+}
+
 // media queries
 @media (max-width: 767px) {
   .post-card {
     > div {
       padding: 4px;
     }
+  }
+  ::-webkit-scrollbar {
+    width: 0;
   }
 }
 @media (min-width: 1200px) {

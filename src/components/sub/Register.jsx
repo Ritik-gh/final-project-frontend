@@ -92,7 +92,7 @@ const Register = (props) => {
           if (data == "exists") {
             window.location.reload();
           } else {
-            history.push("/login");
+            props.closeFunc(false);
           }
         })
         .catch((err) => {
@@ -102,8 +102,17 @@ const Register = (props) => {
   }
   return (
     <>
-      <Modal show={props.show} centered onHide={() => props.closeFunc(false)}>
-        <div className="container">
+      <Modal
+        show={props.show}
+        centered
+        onHide={() => props.closeFunc(false)}
+        className="custom-modal"
+      >
+        <div className="wrapper">
+          <h1 className="modal-title">Register</h1>
+          <h2 className="modal-subtitle">
+            {props.subtitle || `Register to get started!`}
+          </h2>
           <form
             onSubmit={handleRegister}
             className="d-flex flex-column justify-content-center align-items-center"

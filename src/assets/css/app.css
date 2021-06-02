@@ -8,6 +8,11 @@
   font-family: CascadiaCode;
   src: url("../fonts/CascadiaCode.ttf");
 }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 2px;
+}
+
 body {
   background: #f9f9f9;
   color: #131313;
@@ -57,7 +62,7 @@ body figure {
   margin-bottom: clamp(16px, 2vw, 32px);
   transition: box-shadow 0.5s;
   border-radius: 5px;
-  font-size: clamp(10px, 0.8vw, 16px);
+  font-size: clamp(10px, 1vw, 16px);
 }
 .post-card:hover {
   box-shadow: 5px 5px #202020;
@@ -119,7 +124,7 @@ header span:hover {
   position: relative;
   width: 100%;
   height: clamp(100px, 30vh, 300px);
-  background: #60f8e4;
+  background: #ececec;
   color: #ffffff;
 }
 .image-uploader input {
@@ -135,9 +140,9 @@ header span:hover {
   transform: translate(-50%, -50%);
 }
 .image-uploader.supports-advance-upload {
-  border: 2px dashed #2d2d2d;
-  outline-offset: 10px;
-  background-color: #0ae8ca;
+  outline: 2px dashed #2d2d2d;
+  outline-offset: -15px;
+  background-color: #ececec;
 }
 .image-uploader.is-dragover {
   background-color: #ffffff;
@@ -147,9 +152,36 @@ form label {
   margin-bottom: clamp(16px, 2vw, 32px);
 }
 
+.custom-modal .modal-content {
+  background-color: transparent;
+  border: none;
+}
+.custom-modal .modal-content .wrapper {
+  padding: clamp(16px, 2vw, 32px);
+  border-radius: 16px;
+  background: #f9f9f9;
+  color: #131313;
+}
+.custom-modal .modal-content .modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.custom-modal .modal-content .modal-subtitle {
+  font-size: 16px;
+  font-weight: normal;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
 @media (max-width: 767px) {
   .post-card > div {
     padding: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
   }
 }
 @media (min-width: 1200px) {

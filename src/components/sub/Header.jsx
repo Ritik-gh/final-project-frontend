@@ -8,18 +8,28 @@ const Header = () => {
   const auth = useContext(Auth);
   const [loginPopup, setLoginPopup] = useState(false);
   const [registerPopup, setRegisterPopup] = useState(false);
+  const [loginMsg, setLoginMsg] = useState("");
   return (
     <>
-      <LoginPopup show={loginPopup} closeFunc={setLoginPopup} />
+      <LoginPopup
+        show={loginPopup}
+        closeFunc={setLoginPopup}
+        subtitle={loginMsg}
+      />
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
       <header className="container-fluid">
-        <section className="d-flex justify-content-evenly align-items-center py-3">
+        <section className="d-flex justify-content-evenly align-items-center py-2">
           <span className="" onClick={() => history.push("/")}>
             Home
           </span>
           <button
             onClick={() => {
-              !auth.isAuth ? history.push("/login") : history.push("/post");
+              if (!auth.isAuth) {
+                setLoginPopup(true);
+                setLoginMsg("You need to login first in order to post!");
+              } else {
+                history.push("/post");
+              }
             }}
             className="btn-v1"
           >
