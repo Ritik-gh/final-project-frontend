@@ -1,11 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import baseUrl from "../config.js";
 const Post = () => {
-  const itemTitle = useRef(null);
-  const itemAge = useRef(null);
-  const itemLocation = useRef(null);
-  const basePrice = useRef(null);
-  const itemDescription = useRef(null);
-  const itemImg = useRef(null);
+  const [itemTitle, setItemTitle] = useState(null);
+  const [itemAge, setItemAge] = useState(null);
+  const [itemLocation, setItemLocation] = useState(null);
+  const [basePrice, setBasePrice] = useState(null);
+  const [itemDescription, setItemDescription] = useState(null);
+
+  const data = new FormData();
 
   const advanceUploadSupported = (function () {
     let div = document.createElement("div");
@@ -42,7 +44,6 @@ const Post = () => {
           imageUploaderRef.current.children[0].files = e.dataTransfer.files;
           imageUploaderRef.current.children[1].innerHTML =
             e.dataTransfer.files[0].name;
-          itemImg = e.dataTransfer.files[0].name;
         }
       });
       imageUploaderRef.current.addEventListener("change", function (e) {
@@ -50,7 +51,6 @@ const Post = () => {
         if (imageUploaderRef.current.children[0].files.length) {
           imageUploaderRef.current.children[1].innerHTML =
             imageUploaderRef.current.children[0].files[0].name;
-          itemImg = imageUploaderRef.current.children[0].files[0].name;
         }
       });
     }
@@ -58,6 +58,28 @@ const Post = () => {
 
   function handlePost(e) {
     e.preventDefault();
+    data.append("name", itemTitle);
+    data.append("age", itemAge);
+    data.append("location", itemLocation);
+    data.append("basePrice", basePrice);
+    data.append("description", "th");
+    data.append("img", imageUploaderRef.current.children[0].files[0]);
+
+    for (var key of data.entries()) {
+      console.log(key[0] + ", " + key[1]);
+    }
+    // data.append("img", imageUploaderRef.current.children[0].files[0].name);
+    fetch(`${baseUrl}/post`, {
+      method: "POST",
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
+      body: data,
+    })
+      .then((res) => res.body)
+      .then((body) => body.json)
+      .then((data) => console.log("post msg", data))
+      .catch((err) => console.log(err));
   }
   return (
     <>
@@ -74,6 +96,8 @@ const Post = () => {
               placeholder="Type in the title"
               id=""
               value={itemTitle}
+              onChange={(e) => setItemTitle(e.target.value)}
+              autoFocus
             />
           </label>
           <label htmlFor="" className="form-input">
@@ -84,6 +108,7 @@ const Post = () => {
               placeholder="Type in the item age in years"
               id=""
               value={itemAge}
+              onChange={(e) => setItemAge(e.target.value)}
             />
           </label>
           <label className="form-input">
@@ -94,6 +119,7 @@ const Post = () => {
               placeholder="Type in the location"
               id=""
               value={itemLocation}
+              onChange={(e) => setItemLocation(e.target.value)}
             />
           </label>
           <label className="form-input">
@@ -101,7 +127,9 @@ const Post = () => {
             <input
               type="number"
               placeholder="Type in the base price here(in rupees)"
-            ></input>
+              value={basePrice}
+              onChange={(e) => setBasePrice(e.target.value)}
+            />
           </label>
           <label className="form-input">
             Describe your item
@@ -109,13 +137,10 @@ const Post = () => {
               rows="10"
               placeholder="Write something about your property"
               value={itemDescription}
+              onChange={(e) => setItemDescription(e.target.value)}
             ></textarea>
           </label>
-          <label
-            className="image-uploader"
-            ref={imageUploaderRef}
-            value={itemImg}
-          >
+          <label className="image-uploader" ref={imageUploaderRef}>
             <input
               type="file"
               name=""
@@ -131,11 +156,6 @@ const Post = () => {
             <li className="list-inline-item">
               <button className="btn-v1" type="submit">
                 SELL
-              </button>
-            </li>
-            <li className="list-inline-item">
-              <button className="btn-v1" type="submit">
-                RENT
               </button>
             </li>
           </ul>

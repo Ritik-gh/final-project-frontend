@@ -54,8 +54,10 @@ body {
   border-radius: 8px;
   transition: color 0.5s, background-color 0.5s, border-color 0.5s,
     box-shadow 0.5s, transform 0.5s;
+  outline: none;
 
-  &:hover {
+  &:hover,
+  &:focus {
     box-shadow: 2.5px 2.5px rgba($dark-2, 1);
   }
 
