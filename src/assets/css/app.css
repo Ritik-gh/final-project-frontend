@@ -101,6 +101,10 @@ body figure {
 .form-input textarea {
   height: auto;
 }
+.form-input p:last-child {
+  color: #dc3545;
+  margin-top: 4px;
+}
 .form-input .btn-v1 {
   margin-top: 4px;
   margin-right: 16px;
@@ -124,7 +128,7 @@ header span:hover {
 .image-uploader {
   position: relative;
   width: 100%;
-  height: clamp(100px, 30vh, 300px);
+  height: clamp(125px, 20vw, 300px);
   background: #ececec;
   color: #ffffff;
 }
@@ -139,6 +143,10 @@ header span:hover {
   left: 50%;
   color: #131313;
   transform: translate(-50%, -50%);
+  text-align: center;
+}
+.image-uploader .upload-status.error {
+  color: #dc3545;
 }
 .image-uploader.supports-advance-upload {
   outline: 2px dashed #2d2d2d;
