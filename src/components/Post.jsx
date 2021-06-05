@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import baseUrl from "../config.js";
+import { useHistory } from "react-router-dom";
 const Post = () => {
+  const history = useHistory();
   const imageUploaderRef = useRef();
 
   const [itemTitle, setItemTitle] = useState(null);
@@ -73,12 +75,13 @@ const Post = () => {
 
   function handlePost(e) {
     e.preventDefault();
-    let formIsValid = false;
+    let greenFormFields = 0;
     // check errors
     if (!itemTitle) {
       setItemTitleError("We don't sell anonymous stuff!");
     } else {
       setItemTitleError("");
+      greenFormFields++;
     }
     if (!itemAge) {
       setItemAgeError("How old is your item?");
@@ -86,11 +89,13 @@ const Post = () => {
       setItemAgeError("We don't sell new stuff!");
     } else {
       setItemAgeError("");
+      greenFormFields++;
     }
     if (!itemLocation) {
       setItemLocationError("We can't sell the stuff which has no location!");
     } else {
       setItemLocationError("");
+      greenFormFields++;
     }
     if (!basePrice) {
       setBasePriceError(
@@ -98,11 +103,13 @@ const Post = () => {
       );
     } else {
       setBasePriceError("");
+      greenFormFields++;
     }
     if (!itemDescription) {
       setItemDescriptionError("Don't you want to lure buyers?");
     } else {
       setItemDescriptionError("");
+      greenFormFields++;
     }
     if (!imageUploaderRef.current.children[0].files) {
       setItemImgStatus(false);
@@ -110,28 +117,29 @@ const Post = () => {
     } else {
       setItemImgStatus(true);
       setItemImgMsg("");
-      formIsValid = true;
+      greenFormFields++;
     }
     // finally
-    if (formIsValid) {
+    if (greenFormFields === 6) {
       data.append("name", itemTitle);
       data.append("age", itemAge);
       data.append("location", itemLocation);
       data.append("basePrice", basePrice);
-      data.append("description", "th");
+      data.append("description", itemDescription);
       data.append("img", imageUploaderRef.current.children[0].files[0]);
 
       fetch(`${baseUrl}/post-ad`, {
         method: "POST",
-        // headers: {
-        //   "Content-Type": "multipart/form-data",
-        // },
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          auth: window.localStorage.token,
+        },
         body: data,
       })
-        .then((res) => res.body)
-        .then((body) => body.json)
+        .then((res) => res.text())
         .then((data) => console.log("post msg", data))
         .catch((err) => console.log(err));
+      history.push("/");
     }
   }
   return (

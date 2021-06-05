@@ -50,13 +50,14 @@ const Login = (props) => {
       })
         .then((response) => response.text())
         .then((data) => {
+          console.log(data);
           if (data == "invalid email") {
             email.nextElementSibling.innerText =
               "Seems like there is no user with this email, try registering first";
           } else if (data == "invalid password") {
             password.nextElementSibling.innerText = "Password didn't match";
-          } else if (data == "valid") {
-            window.localStorage.user = email.value;
+          } else if (data) {
+            window.localStorage.token = data;
             // props.setAuth(true);
             auth.setAuth(true);
             props.closeFunc(false);

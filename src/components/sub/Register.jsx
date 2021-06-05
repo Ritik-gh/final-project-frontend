@@ -89,7 +89,7 @@ const Register = (props) => {
         .then((data) => {
           console.log(data);
           window.sessionStorage.data = data;
-          if (data == "exists") {
+          if (data == "already exists") {
             window.location.reload();
           } else {
             props.closeFunc(false);
