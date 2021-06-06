@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PostCard from "./sub/PostCard.jsx";
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  async function getData() {
+
+  useEffect(async () => {
     const response = await fetch("http://localhost:3030/get-posts");
     try {
       let data = await response.json();
@@ -10,18 +11,16 @@ const Home = () => {
     } catch (err) {
       console.log(err);
     }
-  }
-
-  getData();
+  }, []);
 
   return (
     <>
       <div className="container-fluid">
         <section className="row">
           {posts &&
-            posts.map((post) => (
+            posts.map((post, index) => (
               <div className="col-6 col-md-4 col-xl-3">
-                <PostCard {...post} />
+                <PostCard {...post} key={index} />
               </div>
             ))}
         </section>

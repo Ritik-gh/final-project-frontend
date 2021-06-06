@@ -5,7 +5,7 @@ function PostCard({ item_name, base_price, item_image, location }) {
     <>
       <article className="post-card">
         <figure>
-          <img src={false && item_image} alt="" className="w-100" />
+          <img src={item_image} alt="" className="w-100" />
         </figure>
         <div>
           <p>{location}</p>
