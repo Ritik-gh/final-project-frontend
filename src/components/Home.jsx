@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PostCard from "./sub/PostCard.jsx";
+import baseUrl from "../config.js";
 const Home = () => {
+  const history = useHistory();
   const [posts, setPosts] = useState([]);
 
   useEffect(async () => {
-    const response = await fetch("http://localhost:3030/get-posts");
+    const response = await fetch(`${baseUrl}/get-posts`);
     try {
       let data = await response.json();
       setPosts(data);
+      console.log("posts", data);
     } catch (err) {
       console.log(err);
     }
@@ -15,14 +19,23 @@ const Home = () => {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid header-space">
         <section className="row">
-          {posts &&
+          {posts && posts.length > 0 ? (
             posts.map((post, index) => (
               <div className="col-6 col-md-4 col-xl-3">
-                <PostCard {...post} key={index} />
+                <PostCard
+                  {...post}
+                  key={index}
+                  clickFunc={() => {
+                    history.push(`/post/${post.post_id}`);
+                  }}
+                />
               </div>
-            ))}
+            ))
+          ) : (
+            <p className="text-center">No Posts Found</p>
+          )}
         </section>
       </div>
     </>

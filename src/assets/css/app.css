@@ -25,6 +25,9 @@ body p,
 body figure {
   margin: 0;
 }
+body .header-space {
+  margin-top: clamp(16px, 1.6vw, 32px);
+}
 
 .btn-v1 {
   background-color: #0ae8ca;
@@ -74,6 +77,13 @@ body figure {
 .post-card > div {
   padding: 8px;
 }
+.post-card p:first-child {
+  font-size: clamp(14px, 1vw, 20px);
+}
+.post-card p:nth-child(2) {
+  font-size: clamp(16px, 1.5vw, 24px);
+  font-weight: bold;
+}
 
 .form-input {
   width: 100%;
@@ -116,7 +126,6 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  margin-bottom: 32px;
 }
 header span {
   cursor: pointer;

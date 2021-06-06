@@ -28,7 +28,7 @@ const Header = () => {
                 setLoginPopup(true);
                 setLoginMsg("You need to login first in order to post!");
               } else {
-                history.push("/post");
+                history.push("/post-ad");
               }
             }}
             className="btn-v1"

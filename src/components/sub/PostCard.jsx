@@ -1,16 +1,16 @@
 import { useState } from "react";
 import sampleImageOne from "../../assets/images/sample-1.jpg";
-function PostCard({ item_name, base_price, item_image, location }) {
+function PostCard({ item_name, base_price, item_image, location, clickFunc }) {
   return (
     <>
-      <article className="post-card">
+      <article className="post-card" onClick={clickFunc}>
         <figure>
           <img src={item_image} alt="" className="w-100" />
         </figure>
         <div>
-          <p>{location}</p>
           <p>{base_price}</p>
           <p>{item_name}</p>
+          <p>{location}</p>
         </div>
       </article>
     </>

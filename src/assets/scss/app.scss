@@ -38,6 +38,9 @@ body {
   figure {
     margin: 0;
   }
+  .header-space {
+    margin-top: clamp(16px, 1.6vw, 32px);
+  }
 }
 
 // button
@@ -94,6 +97,13 @@ body {
   > div {
     padding: 8px;
   }
+  p:first-child {
+    font-size: clamp(14px, 1vw, 20px);
+  }
+  p:nth-child(2) {
+    font-size: clamp(16px, 1.5vw, 24px);
+    font-weight: bold;
+  }
 }
 
 // input
@@ -138,7 +148,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  margin-bottom: 32px;
+  // margin-bottom: 32px;
   span {
     cursor: pointer;
     &:hover {
