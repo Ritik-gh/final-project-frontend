@@ -1,16 +1,16 @@
 import { useState } from "react";
 import sampleImageOne from "../../assets/images/sample-1.jpg";
-function PostCard() {
+function PostCard({ item_name, base_price, item_image, location }) {
   return (
     <>
       <article className="post-card">
         <figure>
-          <img src={sampleImageOne} alt="" className="w-100" />
+          <img src={false && item_image} alt="" className="w-100" />
         </figure>
         <div>
-          <p>Line 1</p>
-          <p>Line 2</p>
-          <p>Line 3</p>
+          <p>{location}</p>
+          <p>{base_price}</p>
+          <p>{item_name}</p>
         </div>
       </article>
     </>

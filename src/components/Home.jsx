@@ -1,17 +1,14 @@
 import { useState } from "react";
 import PostCard from "./sub/PostCard.jsx";
 const Home = () => {
-  const [data, setData] = useState();
-
-  let response;
+  const [posts, setPosts] = useState([]);
   async function getData() {
-    response = await fetch("http://localhost:3030/");
+    const response = await fetch("http://localhost:3030/get-posts");
     try {
-      let data = await response.text();
-      console.log("this is " + data);
-      setData(data);
+      let data = await response.json();
+      setPosts(data);
     } catch (err) {
-      throw err;
+      console.log(err);
     }
   }
 
@@ -21,11 +18,12 @@ const Home = () => {
     <>
       <div className="container-fluid">
         <section className="row">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(() => (
-            <div className="col-6 col-md-4 col-xl-3">
-              <PostCard />
-            </div>
-          ))}
+          {posts &&
+            posts.map((post) => (
+              <div className="col-6 col-md-4 col-xl-3">
+                <PostCard {...post} />
+              </div>
+            ))}
         </section>
       </div>
     </>

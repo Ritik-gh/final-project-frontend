@@ -9,7 +9,7 @@ export const Auth = createContext();
 
 const App = () => {
   const [isAuth, setAuth] = useState(
-    window.localStorage.user === undefined || window.localStorage.user === ""
+    window.localStorage.token === undefined || window.localStorage.token === ""
       ? false
       : true
   );
