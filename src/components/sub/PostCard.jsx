@@ -8,7 +8,7 @@ function PostCard({ item_name, base_price, item_image, location, clickFunc }) {
           <img src={item_image} alt="" className="w-100" />
         </figure>
         <div>
-          <p>{base_price}</p>
+          <p>&#8377;{base_price}</p>
           <p>{item_name}</p>
           <p>{location}</p>
         </div>

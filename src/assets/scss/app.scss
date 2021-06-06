@@ -43,6 +43,23 @@ body {
   }
 }
 
+// header
+header {
+  background-color: $light-3;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  // margin-bottom: 32px;
+  span {
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      color: $primary;
+    }
+  }
+}
+
 // button
 .btn-v1 {
   background-color: $primary;
@@ -138,22 +155,6 @@ body {
   .btn-v1 {
     margin-top: 4px;
     margin-right: 16px;
-  }
-}
-
-// header
-header {
-  background-color: $light-3;
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  // margin-bottom: 32px;
-  span {
-    cursor: pointer;
-    &:hover {
-      color: $primary;
-    }
   }
 }
 

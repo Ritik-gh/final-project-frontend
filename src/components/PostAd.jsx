@@ -144,7 +144,7 @@ const PostAd = () => {
   }
   return (
     <>
-      <div className="container header-space">
+      <div className="container-fluid header-space">
         <form
           className="d-flex flex-column align-items-center"
           onSubmit={handlePost}

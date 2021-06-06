@@ -29,6 +29,20 @@ body .header-space {
   margin-top: clamp(16px, 1.6vw, 32px);
 }
 
+header {
+  background-color: #ececec;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+header span {
+  cursor: pointer;
+}
+header span:hover, header span:focus {
+  color: #0ae8ca;
+}
+
 .btn-v1 {
   background-color: #0ae8ca;
   color: #131313;
@@ -118,20 +132,6 @@ body .header-space {
 .form-input .btn-v1 {
   margin-top: 4px;
   margin-right: 16px;
-}
-
-header {
-  background-color: #ececec;
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-header span {
-  cursor: pointer;
-}
-header span:hover {
-  color: #0ae8ca;
 }
 
 .image-uploader {

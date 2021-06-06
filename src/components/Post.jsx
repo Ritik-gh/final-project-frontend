@@ -19,7 +19,7 @@ function Post() {
   }, []);
   return (
     <>
-      <div className="container header-space">
+      <div className="container-fluid">
         {post && (
           <>
             <section className="row">
@@ -29,10 +29,13 @@ function Post() {
                 </figure>
               </article>
             </section>
-            <div>
+            <div className="my-3">
               <p>{post.location}</p>
               <p>{post.base_price}</p>
               <p>{post.item_name}</p>
+              <p>{post.about}</p>
+              <p>{post.items_estimated_age}</p>
+              <button className="btn-v1 mx-auto">Buy</button>
             </div>
           </>
         )}
