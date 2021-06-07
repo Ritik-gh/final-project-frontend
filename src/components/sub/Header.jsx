@@ -18,23 +18,11 @@ const Header = () => {
       />
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
       <header className="container-fluid">
-        <section className="d-flex justify-content-evenly align-items-center py-2">
+        <section className="d-flex justify-content-between justify-content-md-evenly align-items-center py-2">
           <span className="" onClick={() => history.push("/")}>
             Home
           </span>
-          <button
-            onClick={() => {
-              if (!auth.isAuth) {
-                setLoginPopup(true);
-                setLoginMsg("You need to login first in order to post!");
-              } else {
-                history.push("/post-ad");
-              }
-            }}
-            className="btn-v1"
-          >
-            POST
-          </button>
+
           {!auth.isAuth ? (
             <>
               <span className="" onClick={() => setLoginPopup(true)}>
@@ -55,6 +43,19 @@ const Header = () => {
               Logout
             </span>
           )}
+          <button
+            onClick={() => {
+              if (!auth.isAuth) {
+                setLoginPopup(true);
+                setLoginMsg("You need to login first in order to post!");
+              } else {
+                history.push("/post-ad");
+              }
+            }}
+            className="btn-v1"
+          >
+            POST
+          </button>
         </section>
       </header>
     </>

@@ -97,6 +97,9 @@ header span:hover, header span:focus {
 .post-card p:nth-child(2) {
   font-size: clamp(16px, 1.5vw, 24px);
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .form-input {
@@ -193,6 +196,24 @@ form label {
   margin-bottom: 8px;
 }
 
+.details .item-name {
+  font-weight: bold;
+  font-size: clamp(20px, 1.75vw, 28px);
+}
+.details td {
+  vertical-align: top;
+}
+.details tr > td:first-child {
+  color: #0ae8ca;
+  padding-right: 16px;
+}
+.details .btn-v1 {
+  position: sticky;
+  bottom: 16px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
 @media (max-width: 767px) {
   .post-card > div {
     padding: 4px;
@@ -204,8 +225,8 @@ form label {
 }
 @media (min-width: 1200px) {
   .container-fluid {
-    padding-left: 150px;
-    padding-right: 150px;
+    padding-left: 230px;
+    padding-right: 230px;
   }
 }
 

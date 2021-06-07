@@ -19,24 +19,39 @@ function Post() {
   }, []);
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid details">
         {post && (
           <>
             <section className="row">
-              <article className="col">
+              <article className="col px-0">
                 <figure>
                   <img src={post.item_image} alt="" className="w-100" />
                 </figure>
               </article>
             </section>
-            <div className="my-3">
-              <p>{post.location}</p>
-              <p>{post.base_price}</p>
-              <p>{post.item_name}</p>
-              <p>{post.about}</p>
-              <p>{post.items_estimated_age}</p>
-              <button className="btn-v1 mx-auto">Buy</button>
+            <div className="d-flex align-items-center justify-content-between w-100 my-3">
+              <p className="item-name pr-2">{post.item_name}</p>
+              <p className="item-age pl-2">
+                {post.items_estimated_age} years old
+              </p>
             </div>
+            <table>
+              <tr>
+                <td>Location </td>
+                <td>{post.location}</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Base Price </span>
+                </td>
+                <td>&#8377;{post.base_price}</td>
+              </tr>
+              <tr>
+                <td>Description </td>
+                <td>{post.about}</td>
+              </tr>
+            </table>
+            <button className="btn-v1 mx-auto my-3">Buy</button>
           </>
         )}
       </div>
