@@ -7,8 +7,10 @@ function Post() {
   const { id } = useParams();
   const [post, setPost] = useState();
   console.log("params", id);
-  useEffect(async () => {
-    const response = await fetch(`${baseUrl}/get-posts?postId=${id}`);
+  const getPost = async () => {
+    const response = await fetch(
+      `${baseUrl}/get-posts?postId=${id}&user=${window.localStorage.token}`
+    );
     try {
       let data = await response.json();
       setPost(data);
@@ -16,6 +18,9 @@ function Post() {
     } catch (err) {
       console.log(err);
     }
+  };
+  useEffect(() => {
+    getPost();
   }, []);
   return (
     <>
@@ -51,7 +56,9 @@ function Post() {
                 <td>{post.about}</td>
               </tr>
             </table>
-            <button className="btn-v1 mx-auto my-3">Buy</button>
+            {!post.postedBySelf && (
+              <button className="btn-v1 mx-auto my-3">Buy</button>
+            )}
           </>
         )}
       </div>

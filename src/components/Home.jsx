@@ -6,7 +6,7 @@ const Home = () => {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
 
-  useEffect(async () => {
+  const getPosts = async () => {
     const response = await fetch(`${baseUrl}/get-posts`);
     try {
       let data = await response.json();
@@ -15,6 +15,10 @@ const Home = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  useEffect(() => {
+    getPosts();
   }, []);
 
   return (
