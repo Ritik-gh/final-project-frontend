@@ -76,6 +76,7 @@ header {
   transition: color 0.5s, background-color 0.5s, border-color 0.5s,
     box-shadow 0.5s, transform 0.5s;
   outline: none;
+  user-select: none;
 
   &:hover,
   &:focus {

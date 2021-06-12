@@ -57,6 +57,7 @@ header span:hover, header span:focus {
   border-radius: 8px;
   transition: color 0.5s, background-color 0.5s, border-color 0.5s, box-shadow 0.5s, transform 0.5s;
   outline: none;
+  user-select: none;
 }
 .btn-v1:hover, .btn-v1:focus {
   box-shadow: 2.5px 2.5px #202020;

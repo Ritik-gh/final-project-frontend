@@ -33,15 +33,25 @@ const Header = () => {
               </span>
             </>
           ) : (
-            <span
-              className=""
-              onClick={() => {
-                window.localStorage.user = "";
-                auth.setAuth(false);
-              }}
-            >
-              Logout
-            </span>
+            <>
+              <span
+                className=""
+                onClick={() => {
+                  window.localStorage.user = "";
+                  auth.setAuth(false);
+                }}
+              >
+                Logout
+              </span>
+              <span
+                className=""
+                onClick={() => {
+                  history.push("/profile");
+                }}
+              >
+                Profile
+              </span>
+            </>
           )}
           <button
             onClick={() => {

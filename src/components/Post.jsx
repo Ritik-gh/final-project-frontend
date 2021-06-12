@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import sampleImageOne from "../assets/images/sample-1.jpg";
+import BidPopup from "./sub/BidPopup.jsx";
 import { useParams } from "react-router-dom";
 import baseUrl from "../config.js";
 
 function Post() {
   const { id } = useParams();
+  const [bidPopupBool, setBidPopupBool] = useState(false);
   const [post, setPost] = useState();
   console.log("params", id);
   const getPost = async () => {
@@ -24,6 +26,11 @@ function Post() {
   }, []);
   return (
     <>
+      <BidPopup
+        show={bidPopupBool}
+        closeFunc={setBidPopupBool}
+        postTitle={post?.item_name}
+      />
       <div className="container-fluid details">
         {post && (
           <>
@@ -47,17 +54,35 @@ function Post() {
               </tr>
               <tr>
                 <td>
+                  <span>Current Bid Price</span>
+                </td>
+                <td>
+                  {post.highest_bid_price
+                    ? `&#8377; ${post.highest_bid_price}`
+                    : `No Bid Yet`}
+                </td>
+              </tr>
+              <tr>
+                <td>
                   <span>Base Price </span>
                 </td>
                 <td>&#8377;{post.base_price}</td>
               </tr>
+
               <tr>
                 <td>Description </td>
                 <td>{post.about}</td>
               </tr>
             </table>
             {!post.postedBySelf && (
-              <button className="btn-v1 mx-auto my-3">Buy</button>
+              <button
+                className="btn-v1 mx-auto my-3"
+                onClick={() => {
+                  setBidPopupBool(true);
+                }}
+              >
+                Buy
+              </button>
             )}
           </>
         )}
