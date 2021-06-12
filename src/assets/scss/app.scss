@@ -27,6 +27,18 @@ $danger: #dc3545;
   height: 2px;
 }
 
+// Hide number input type arrows
+// Chrome, Safari, Edge, Opera
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+// Firefox
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 body {
   background: $light-2;
   color: $dark-3;

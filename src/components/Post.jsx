@@ -23,13 +23,15 @@ function Post() {
   };
   useEffect(() => {
     getPost();
-  }, []);
+  }, [bidPopupBool]);
   return (
     <>
       <BidPopup
         show={bidPopupBool}
         closeFunc={setBidPopupBool}
         postTitle={post?.item_name}
+        postId={post?.post_id}
+        highestPrice={post?.highest_bid ? post?.highest_bid : post?.base_price}
       />
       <div className="container-fluid details">
         {post && (
@@ -57,16 +59,14 @@ function Post() {
                   <span>Current Bid Price</span>
                 </td>
                 <td>
-                  {post.highest_bid_price
-                    ? `&#8377; ${post.highest_bid_price}`
-                    : `No Bid Yet`}
+                  {post.highest_bid ? `₹${post.highest_bid}` : `No Bid Yet`}
                 </td>
               </tr>
               <tr>
                 <td>
                   <span>Base Price </span>
                 </td>
-                <td>&#8377;{post.base_price}</td>
+                <td>₹{post.base_price}</td>
               </tr>
 
               <tr>

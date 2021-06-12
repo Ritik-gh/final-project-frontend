@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import baseUrl from "../config";
 import PostCard from "./sub/PostCard.jsx";
+import { Auth } from "../App.js";
 
 const Profile = () => {
+  const auth = useContext(Auth);
   const history = useHistory();
   const [user, setUser] = useState();
   const [posts, setPosts] = useState();
@@ -25,7 +27,7 @@ const Profile = () => {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [auth.isAuth]);
   return (
     <>
       <div className="container-fluid header-space">
