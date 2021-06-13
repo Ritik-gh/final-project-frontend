@@ -213,16 +213,11 @@ form label {
 }
 .details td {
   vertical-align: top;
+  font-size: clamp(12px, 1.5vw, 16px);
 }
 .details tr > td:first-child {
   color: #0ae8ca;
   padding-right: 16px;
-}
-.details .btn-v1 {
-  position: sticky;
-  bottom: 16px;
-  left: 50%;
-  transform: translate(-50%, 0);
 }
 
 @media (max-width: 767px) {

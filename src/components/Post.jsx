@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import sampleImageOne from "../assets/images/sample-1.jpg";
 import BidPopup from "./sub/BidPopup.jsx";
+import ContactPopup from "./sub/ContactPopup.jsx";
 import { useParams } from "react-router-dom";
 import baseUrl from "../config.js";
+import { Auth } from "../App.js";
 
 function Post() {
+  const auth = useContext(Auth);
   const { id } = useParams();
-  const [bidPopupBool, setBidPopupBool] = useState(false);
   const [post, setPost] = useState();
+  const [bidderDetails, setBidderDetails] = useState();
+  const [bidPopupBool, setBidPopupBool] = useState(false);
+  const [contactPopupBool, setContactPopupBool] = useState(false);
   console.log("params", id);
   const getPost = async () => {
     const response = await fetch(
@@ -15,24 +20,41 @@ function Post() {
     );
     try {
       let data = await response.json();
-      setPost(data);
-      console.log("post", data);
+      if (data.bidderDetails) {
+        setBidderDetails(data.bidderDetails);
+        setPost(data.post);
+      } else {
+        setPost(data);
+      }
+      console.log("post data", data);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
     getPost();
-  }, [bidPopupBool]);
+  }, [auth.isAuth, bidPopupBool]);
   return (
     <>
-      <BidPopup
-        show={bidPopupBool}
-        closeFunc={setBidPopupBool}
-        postTitle={post?.item_name}
-        postId={post?.post_id}
-        highestPrice={post?.highest_bid ? post?.highest_bid : post?.base_price}
-      />
+      {post && (
+        <BidPopup
+          show={bidPopupBool}
+          closeFunc={setBidPopupBool}
+          postTitle={post?.item_name}
+          postId={post?.post_id}
+          highestPrice={
+            post?.highest_bid ? post?.highest_bid : post?.base_price
+          }
+        />
+      )}
+      {bidderDetails && (
+        <ContactPopup
+          show={contactPopupBool}
+          closeFunc={setContactPopupBool}
+          {...bidderDetails}
+          itemName={post?.item_name}
+        />
+      )}
       <div className="container-fluid details">
         {post && (
           <>
@@ -74,7 +96,31 @@ function Post() {
                 <td>{post.about}</td>
               </tr>
             </table>
-            {!post.postedBySelf && (
+            {post.postedBySelf ? (
+              bidderDetails && (
+                <>
+                  <div className="d-flex align-items-center justify-content-center">
+                    <button
+                      className="btn-v1 my-3 "
+                      onClick={() => {
+                        setBidPopupBool(true);
+                      }}
+                    >
+                      Mark as Sold
+                    </button>
+                    <div className="mx-2" />
+                    <button
+                      className="btn-v1 my-3"
+                      onClick={() => {
+                        setContactPopupBool(true);
+                      }}
+                    >
+                      Contact Bidder
+                    </button>
+                  </div>
+                </>
+              )
+            ) : (
               <button
                 className="btn-v1 mx-auto my-3"
                 onClick={() => {

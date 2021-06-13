@@ -13,7 +13,7 @@ const BidPopup = (props) => {
     if (!bidPrice) {
       setBidPriceError("Do you have invisible money?");
       return;
-    } else if (parseInt(bidPrice) < parseInt(props.highestPrice)) {
+    } else if (parseInt(bidPrice) <= parseInt(props.highestPrice)) {
       setBidPriceError(
         "Base Price must be higher than current bid price i.e. " +
           props.highestPrice +

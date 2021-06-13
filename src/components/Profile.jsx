@@ -32,10 +32,10 @@ const Profile = () => {
     <>
       <div className="container-fluid header-space">
         <section className="row mb-3">
-          <article className="col-6">{user?.first_name}</article>
-          <article className="col-6">{user?.last_name}</article>
-        </section>
-        <section className="row mb-3">
+          <article className="col-6">
+            {user?.first_name}&nbsp;
+            {user?.last_name}
+          </article>
           <article className="col-6">{user?.email_address}</article>
         </section>
         <h1 className="mb-3">Your Posts</h1>
