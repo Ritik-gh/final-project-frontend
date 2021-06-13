@@ -18,7 +18,7 @@ const Header = () => {
       />
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
       <header className="container-fluid">
-        <section className="d-flex justify-content-between justify-content-md-evenly align-items-center py-2">
+        <section className="justify-content-between justify-content-md-evenly">
           <span className="" onClick={() => history.push("/")}>
             Home
           </span>
@@ -37,19 +37,27 @@ const Header = () => {
               <span
                 className=""
                 onClick={() => {
+                  history.push("/profile");
+                }}
+              >
+                Profile
+              </span>
+              <span
+                className=""
+                onClick={() => {
+                  history.push("/chats");
+                }}
+              >
+                Chats
+              </span>
+              <span
+                className=""
+                onClick={() => {
                   window.localStorage.user = "";
                   auth.setAuth(false);
                 }}
               >
                 Logout
-              </span>
-              <span
-                className=""
-                onClick={() => {
-                  history.push("/profile");
-                }}
-              >
-                Profile
               </span>
             </>
           )}

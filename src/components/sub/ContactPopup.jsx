@@ -34,7 +34,7 @@ const ContactPopup = (props) => {
             <button
               className="btn-v1"
               onClick={() => {
-                history.push(`/chat/${props.id}`);
+                history.push(`/chats/${props.id}`);
                 props.closeFunc(false);
               }}
             >

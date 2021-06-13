@@ -10,7 +10,7 @@ const Profile = () => {
   const [user, setUser] = useState();
   const [posts, setPosts] = useState();
   const getProfile = async () => {
-    const response = await fetch(`${baseUrl}/get-profile`, {
+    const response = await fetch(`${baseUrl}/get-profile?posts=true`, {
       headers: {
         auth: window.localStorage.token,
       },
