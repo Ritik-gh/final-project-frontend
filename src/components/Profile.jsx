@@ -38,19 +38,22 @@ const Profile = () => {
           </article>
           <article className="col-6">{user?.email_address}</article>
         </section>
-        <h1 className="mb-3">Your Posts</h1>
+        <h1 className="mb-3">Your Active Posts</h1>
         <section className="row">
-          {posts?.map((post, index) => (
-            <div className="col-6 col-md-4 col-xl-3">
-              <PostCard
-                key={index + post.id}
-                {...post}
-                clickFunc={() => {
-                  history.push(`/post/${post.post_id}`);
-                }}
-              />
-            </div>
-          ))}
+          {posts?.map(
+            (post, index) =>
+              post.post_status === "unsold" && (
+                <div className="col-6 col-md-4 col-xl-3">
+                  <PostCard
+                    key={index + post.id}
+                    {...post}
+                    clickFunc={() => {
+                      history.push(`/post/${post.post_id}`);
+                    }}
+                  />
+                </div>
+              )
+          )}
         </section>
       </div>
     </>

@@ -33,7 +33,6 @@ const ContactPopup = (props) => {
             <p className="my-1">OR</p>
             <button
               className="btn-v1"
-              type="submit"
               onClick={() => {
                 history.push(`/chat/${props.id}`);
                 props.closeFunc(false);

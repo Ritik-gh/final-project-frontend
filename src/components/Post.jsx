@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import sampleImageOne from "../assets/images/sample-1.jpg";
 import BidPopup from "./sub/BidPopup.jsx";
 import ContactPopup from "./sub/ContactPopup.jsx";
+import MarkAsSoldPopup from "./sub/MarkAsSoldPopup.jsx";
 import { useParams } from "react-router-dom";
 import baseUrl from "../config.js";
 import { Auth } from "../App.js";
@@ -13,6 +14,7 @@ function Post() {
   const [bidderDetails, setBidderDetails] = useState();
   const [bidPopupBool, setBidPopupBool] = useState(false);
   const [contactPopupBool, setContactPopupBool] = useState(false);
+  const [markAsSoldPopup, setMarkAsSoldPopup] = useState(false);
   console.log("params", id);
   const getPost = async () => {
     const response = await fetch(
@@ -48,19 +50,27 @@ function Post() {
         />
       )}
       {bidderDetails && (
-        <ContactPopup
-          show={contactPopupBool}
-          closeFunc={setContactPopupBool}
-          {...bidderDetails}
-          itemName={post?.item_name}
-        />
+        <>
+          <MarkAsSoldPopup
+            show={markAsSoldPopup}
+            closeFunc={setMarkAsSoldPopup}
+            itemName={post?.item_name}
+            postId={post?.post_id}
+          />
+          <ContactPopup
+            show={contactPopupBool}
+            closeFunc={setContactPopupBool}
+            {...bidderDetails}
+            itemName={post?.item_name}
+          />
+        </>
       )}
       <div className="container-fluid details">
         {post && (
           <>
             <section className="row">
               <article className="col px-0">
-                <figure>
+                <figure className="img-wrapper">
                   <img src={post.item_image} alt="" className="w-100" />
                 </figure>
               </article>
@@ -103,7 +113,7 @@ function Post() {
                     <button
                       className="btn-v1 my-3 "
                       onClick={() => {
-                        setBidPopupBool(true);
+                        setMarkAsSoldPopup(true);
                       }}
                     >
                       Mark as Sold

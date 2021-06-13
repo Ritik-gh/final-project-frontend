@@ -207,6 +207,11 @@ form label {
   margin-bottom: 8px;
 }
 
+.details .img-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .details .item-name {
   font-weight: bold;
   font-size: clamp(20px, 1.75vw, 28px);
