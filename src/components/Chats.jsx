@@ -3,8 +3,15 @@ import { useHistory, useParams } from "react-router-dom";
 import baseUrl from "../config";
 import PostCard from "./sub/PostCard.jsx";
 import { Auth } from "../App.js";
+import socketIOClient from "socket.io-client";
 
 const Chats = () => {
+  useEffect(() => {
+    const socket = socketIOClient(baseUrl + "/");
+    socket.on("connect", () => {
+      console.log("connected to backend");
+    });
+  });
   const { bidderId } = useParams();
   const chatSectionRef = useRef();
   const auth = useContext(Auth);
