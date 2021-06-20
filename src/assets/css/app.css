@@ -236,8 +236,10 @@ form label {
   height: calc(100vh - 56px);
   position: relative;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
-.chat-div section div:first-child {
+.chat-div section:nth-child(1) {
   background-color: #ececec;
   padding: 0 16px;
   border: 2px solid #131313;
@@ -245,21 +247,17 @@ form label {
   display: flex;
   align-items: center;
 }
-.chat-div section div:last-child {
-  height: calc(100% - 60px);
+.chat-div section:nth-child(2) {
+  flex-grow: 1;
 }
-.chat-div article {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.chat-div section:nth-child(3) {
   padding: 16px;
   background-color: #ececec;
 }
-.chat-div article > div {
+.chat-div section:nth-child(3) > div {
   position: relative;
 }
-.chat-div article > div span {
+.chat-div section:nth-child(3) > div span {
   position: absolute;
   right: 0;
   top: 0;
@@ -273,10 +271,10 @@ form label {
   cursor: pointer;
   line-height: 1;
 }
-.chat-div article .has-msg span {
+.chat-div section:nth-child(3) .has-msg span {
   opacity: 1;
 }
-.chat-div article input {
+.chat-div section:nth-child(3) input {
   background-color: #ffffff;
 }
 

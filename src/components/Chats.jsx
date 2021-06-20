@@ -26,22 +26,7 @@ socket.on("connect_error", (err) => {
   console.log(err);
 });
 
-socket.on("join-msg", (msg) => {
-  console.log("join msg", msg);
-});
-
-socket.on("join-room", ({ room, id }) => {
-  console.log(`room is ${room} and id is ${id}`);
-});
-
 const Chats = () => {
-  function sendMsg() {
-    socket.emit("send_msg", {
-      receiverId: bidderId,
-      msg: msg,
-    });
-  }
-
   const { bidderId } = useParams();
   const chatSectionRef = useRef();
   const auth = useContext(Auth);
@@ -49,6 +34,7 @@ const Chats = () => {
   const [chats, setChats] = useState();
   const [bidder, setBidder] = useState();
   const [msg, setMsg] = useState();
+  const msgInputRef = useRef();
   const getChats = async () => {
     const response = await fetch(`${baseUrl}/get-chats`, {
       headers: {
@@ -79,33 +65,21 @@ const Chats = () => {
     }
   };
 
-  const postMsg = async () => {
-    const response = await fetch(`${baseUrl}/post-msg`, {
-      method: "PUT",
-      headers: {
-        auth: window.localStorage.token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        msg: msg,
-        receiverId: bidder?.id,
-      }),
+  function sendMsg() {
+    socket.emit("send_msg", {
+      receiverId: bidderId,
+      msg: msg,
     });
-    try {
-      const data = response.text();
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
+    displaySentMsg();
+    msgInputRef.current.focus();
+  }
+
+  function displaySentMsg() {
     const pTag = document.createElement("P");
     pTag.innerText = msg;
-    if (chatSectionRef.current.childElementCount === 0) {
-      chatSectionRef.appendChild(pTag);
-    } else {
-      chatSectionRef.insertBefore(pTag, chatSectionRef.children[0]);
-    }
-    msg = "";
-  };
+    chatSectionRef.current.appendChild(pTag);
+    setMsg("");
+  }
 
   useEffect(() => {
     bidderId ? getProfile() : getChats();
@@ -125,11 +99,9 @@ const Chats = () => {
             <>
               <section className="row">
                 <div className="chat-div">
-                  <section>
-                    <div className="">{`${bidder.first_name} ${bidder.last_name}`}</div>
-                    <div className="" ref={chatSectionRef}></div>
-                  </section>
-                  <article className={`form-input `}>
+                  <section className="">{`${bidder.first_name} ${bidder.last_name}`}</section>
+                  <section className="" ref={chatSectionRef}></section>
+                  <section className={`form-input `}>
                     <div className={`${msg ? "has-msg" : ""}`}>
                       <input
                         type="text"
@@ -141,10 +113,14 @@ const Chats = () => {
                         onChange={(e) => {
                           setMsg(e.target.value);
                         }}
+                        ref={msgInputRef}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") sendMsg();
+                        }}
                       />
                       <span onClick={sendMsg}>{">"}</span>
                     </div>
-                  </article>
+                  </section>
                 </div>
               </section>
             </>

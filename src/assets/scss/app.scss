@@ -290,24 +290,20 @@ form {
   height: calc(100vh - 56px);
   position: relative;
   padding: 0;
-  section {
-    div:first-child {
-      background-color: $light-3;
-      padding: 0 16px;
-      border: 2px solid $dark-3;
-      height: 60px;
-      display: flex;
-      align-items: center;
-    }
-    div:last-child {
-      height: calc(100% - 60px);
-    }
+  display: flex;
+  flex-direction: column;
+  section:nth-child(1) {
+    background-color: $light-3;
+    padding: 0 16px;
+    border: 2px solid $dark-3;
+    height: 60px;
+    display: flex;
+    align-items: center;
   }
-  article {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  section:nth-child(2) {
+    flex-grow: 1;
+  }
+  section:nth-child(3) {
     padding: 16px;
     background-color: $light-3;
     & > div {
