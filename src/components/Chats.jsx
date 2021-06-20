@@ -3,15 +3,45 @@ import { useHistory, useParams } from "react-router-dom";
 import baseUrl from "../config";
 import PostCard from "./sub/PostCard.jsx";
 import { Auth } from "../App.js";
-import socketIOClient from "socket.io-client";
+import socketIOClient, { io } from "socket.io-client";
+
+const socket = io(baseUrl, {
+  auth: {
+    token: window.localStorage.token,
+  },
+});
+
+socket.on("connect", () => {
+  console.log("connected to server with id", socket.id);
+  socket.on("disconnect", () => {
+    console.log("User disconncected");
+  });
+});
+
+socket.on("receive_msg", (msg) => {
+  console.log(msg);
+});
+
+socket.on("connect_error", (err) => {
+  console.log(err);
+});
+
+socket.on("join-msg", (msg) => {
+  console.log("join msg", msg);
+});
+
+socket.on("join-room", ({ room, id }) => {
+  console.log(`room is ${room} and id is ${id}`);
+});
 
 const Chats = () => {
-  useEffect(() => {
-    const socket = socketIOClient(baseUrl + "/");
-    socket.on("connect", () => {
-      console.log("connected to backend");
+  function sendMsg() {
+    socket.emit("send_msg", {
+      receiverId: bidderId,
+      msg: msg,
     });
-  });
+  }
+
   const { bidderId } = useParams();
   const chatSectionRef = useRef();
   const auth = useContext(Auth);
@@ -112,7 +142,7 @@ const Chats = () => {
                           setMsg(e.target.value);
                         }}
                       />
-                      <span onClick={postMsg}>{">"}</span>
+                      <span onClick={sendMsg}>{">"}</span>
                     </div>
                   </article>
                 </div>
