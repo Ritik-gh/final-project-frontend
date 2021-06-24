@@ -43,7 +43,10 @@ const Profile = () => {
           {posts?.map(
             (post, index) =>
               post.post_status === "unsold" && (
-                <div className="col-6 col-md-4 col-xl-3">
+                <div
+                  className="col-6 col-md-4 col-xl-3"
+                  index={Date.now() - index}
+                >
                   <PostCard
                     key={index + post.id}
                     {...post}

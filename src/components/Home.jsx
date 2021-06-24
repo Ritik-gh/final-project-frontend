@@ -29,7 +29,10 @@ const Home = () => {
             posts.map(
               (post, index) =>
                 post.post_status === "unsold" && (
-                  <div className="col-6 col-md-4 col-xl-3">
+                  <div
+                    className="col-6 col-md-4 col-xl-3"
+                    key={index + Date.now()}
+                  >
                     <PostCard
                       {...post}
                       key={index}

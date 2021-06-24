@@ -32,9 +32,10 @@ const Chats = () => {
   const auth = useContext(Auth);
   const history = useHistory();
   const [chats, setChats] = useState();
-  const [bidder, setBidder] = useState();
+  const [enduser, setEnduser] = useState({});
   const [msg, setMsg] = useState();
   const msgInputRef = useRef();
+
   const getChats = async () => {
     const response = await fetch(`${baseUrl}/get-chats`, {
       headers: {
@@ -51,19 +52,25 @@ const Chats = () => {
   };
 
   const getProfile = async () => {
-    const response = await fetch(`${baseUrl}/get-user?userId=${bidderId}`, {
-      headers: {
-        auth: window.localStorage.token,
-      },
-    });
     try {
+      const response = await fetch(`${baseUrl}/get-user?userId=${bidderId}`, {
+        headers: {
+          auth: window.localStorage.token,
+        },
+      });
       const data = await response.json();
-      setBidder(data);
-      console.log("bidder details", data);
+      setEnduser(data);
     } catch (err) {
       console.log(err);
     }
   };
+
+  function displaySentMsg() {
+    const pTag = document.createElement("P");
+    pTag.innerText = msg;
+    chatSectionRef.current.appendChild(pTag);
+    setMsg("");
+  }
 
   function sendMsg() {
     socket.emit("send_msg", {
@@ -74,32 +81,44 @@ const Chats = () => {
     msgInputRef.current.focus();
   }
 
-  function displaySentMsg() {
-    const pTag = document.createElement("P");
-    pTag.innerText = msg;
-    chatSectionRef.current.appendChild(pTag);
-    setMsg("");
-  }
-
   useEffect(() => {
-    bidderId ? getProfile() : getChats();
+    bidderId && getProfile();
+    getChats();
   }, []);
 
   return (
     <>
-      <div className={`container-fluid ${!bidderId ? "header-space" : ""}`}>
-        {!bidderId ? (
-          chats && chats.length > 0 ? (
-            <></>
-          ) : (
-            "No chats yet!"
-          )
+      <div className={`container-fluid`}>
+        {!bidderId && chats && chats.length === 0 ? (
+          "No chats yet!"
         ) : (
-          bidder && (
-            <>
-              <section className="row">
+          <>
+            <section className="row">
+              <article className="col-4">
+                {chats && chats.length > 0 ? (
+                  chats?.map((chat) => (
+                    <p
+                      onClick={(e) => {
+                        const chat = chats.filter((chat) => {
+                          return chat.enduser.id == e.target.id;
+                        })[0].enduser;
+                        setEnduser(chat);
+                      }}
+                      id={chat.enduser.id}
+                      key={chat.enduser}
+                    >
+                      {chat.enduser.first_name + " " + chat.enduser.last_name}
+                    </p>
+                  ))
+                ) : (
+                  <p id={enduser.id}>
+                    {enduser.first_name + " " + enduser.last_name}
+                  </p>
+                )}
+              </article>
+              <article className="col-8">
                 <div className="chat-div">
-                  <section className="">{`${bidder.first_name} ${bidder.last_name}`}</section>
+                  <section className="">{`${enduser?.first_name} ${enduser?.last_name}`}</section>
                   <section className="" ref={chatSectionRef}></section>
                   <section className={`form-input `}>
                     <div className={`${msg ? "has-msg" : ""}`}>
@@ -122,9 +141,9 @@ const Chats = () => {
                     </div>
                   </section>
                 </div>
-              </section>
-            </>
-          )
+              </article>
+            </section>
+          </>
         )}
       </div>
     </>
