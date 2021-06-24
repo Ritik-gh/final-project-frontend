@@ -32,7 +32,7 @@ const Chats = () => {
   const auth = useContext(Auth);
   const history = useHistory();
   const [chats, setChats] = useState();
-  const [enduser, setEnduser] = useState({});
+  const [enduser, setEnduser] = useState();
   const [msg, setMsg] = useState();
   const msgInputRef = useRef();
 
@@ -84,6 +84,7 @@ const Chats = () => {
   useEffect(() => {
     bidderId && getProfile();
     getChats();
+    console.log("enduser", enduser);
   }, []);
 
   return (
@@ -111,36 +112,40 @@ const Chats = () => {
                     </p>
                   ))
                 ) : (
-                  <p id={enduser.id}>
-                    {enduser.first_name + " " + enduser.last_name}
+                  <p id={enduser?.id}>
+                    {enduser?.first_name + " " + enduser?.last_name}
                   </p>
                 )}
               </article>
               <article className="col-8">
-                <div className="chat-div">
-                  <section className="">{`${enduser?.first_name} ${enduser?.last_name}`}</section>
-                  <section className="" ref={chatSectionRef}></section>
-                  <section className={`form-input `}>
-                    <div className={`${msg ? "has-msg" : ""}`}>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        placeholder="Type a Message"
-                        autoFocus
-                        value={msg}
-                        onChange={(e) => {
-                          setMsg(e.target.value);
-                        }}
-                        ref={msgInputRef}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") sendMsg();
-                        }}
-                      />
-                      <span onClick={sendMsg}>{">"}</span>
-                    </div>
-                  </section>
-                </div>
+                {enduser ? (
+                  <div className="chat-div">
+                    <section className="">{`${enduser?.first_name} ${enduser?.last_name}`}</section>
+                    <section className="" ref={chatSectionRef}></section>
+                    <section className={`form-input `}>
+                      <div className={`${msg ? "has-msg" : ""}`}>
+                        <input
+                          type="text"
+                          name=""
+                          id=""
+                          placeholder="Type a Message"
+                          autoFocus
+                          value={msg}
+                          onChange={(e) => {
+                            setMsg(e.target.value);
+                          }}
+                          ref={msgInputRef}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") sendMsg();
+                          }}
+                        />
+                        <span onClick={sendMsg}>{">"}</span>
+                      </div>
+                    </section>
+                  </div>
+                ) : (
+                  "Chat with buyers and sellers"
+                )}
               </article>
             </section>
           </>
