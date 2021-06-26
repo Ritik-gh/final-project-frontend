@@ -4,6 +4,7 @@ import PostAd from "./components/PostAd.jsx";
 import Post from "./components/Post.jsx";
 import Profile from "./components/Profile.jsx";
 import Chats from "./components/Chats.jsx";
+import Settings from "./components/Settings.jsx";
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
       <Route exact path="/post/:id" component={Post} />
       <Route exact path="/profile" component={Profile} />
       <Route exact path="/chats/:bidderId?" component={Chats} />
+      <Route exact path="/settings" component={Settings} />
     </Switch>
   );
 };

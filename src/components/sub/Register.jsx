@@ -49,7 +49,7 @@ const Register = (props) => {
       phone.nextElementSibling.innerText = "";
     }
     if (!password.value) {
-      password.nextElementSibling.innerText = "password can't be empty";
+      password.nextElementSibling.innerText = "Password can't be empty";
     } else if (
       !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
         password.value
@@ -62,10 +62,10 @@ const Register = (props) => {
     }
     if (!confirmPassword.value) {
       confirmPassword.nextElementSibling.innerText =
-        "this field can't be empty";
+        "This field can't be empty";
     } else if (confirmPassword.value != password.value) {
       confirmPassword.nextElementSibling.innerText =
-        "this field must match the password above!";
+        "This field must match the password above!";
     } else {
       confirmPassword.nextElementSibling.innerText = "";
       formIsValid = true;

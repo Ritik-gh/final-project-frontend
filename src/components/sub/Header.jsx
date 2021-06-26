@@ -3,7 +3,9 @@ import { useHistory } from "react-router-dom";
 import { Auth } from "../../App.js";
 import LoginPopup from "./Login";
 import RegisterPopup from "./Register";
+import useIsMobile from "../../customHooks/useIsMobile.js";
 const Header = () => {
+  const isMobile = useIsMobile();
   const history = useHistory();
   const auth = useContext(Auth);
   const [loginPopup, setLoginPopup] = useState(false);
@@ -23,49 +25,50 @@ const Header = () => {
             Home
           </span>
 
-          {!auth.isAuth ? (
-            <>
-              <span className="" onClick={() => setLoginPopup(true)}>
-                Login
-              </span>
-              <span className="" onClick={() => setRegisterPopup(true)}>
-                Register
-              </span>
-            </>
-          ) : (
-            <>
-              <span
-                className=""
-                onClick={() => {
-                  history.push("/profile");
-                }}
-              >
-                Profile
-              </span>
-              <span
-                className=""
-                onClick={() => {
-                  history.push("/chats");
-                }}
-              >
-                Chats
-              </span>
-              <span
-                className=""
-                onClick={() => {
-                  window.localStorage.user = "";
-                  auth.setAuth(false);
-                }}
-              >
-                Logout
-              </span>
-            </>
-          )}
+          {!isMobile &&
+            (!auth.isAuth ? (
+              <>
+                <span className="" onClick={() => setLoginPopup(true)}>
+                  Login
+                </span>
+                <span className="" onClick={() => setRegisterPopup(true)}>
+                  Register
+                </span>
+              </>
+            ) : (
+              <>
+                <span
+                  className=""
+                  onClick={() => {
+                    history.push("/profile");
+                  }}
+                >
+                  Profile
+                </span>
+                <span
+                  className=""
+                  onClick={() => {
+                    history.push("/chats");
+                  }}
+                >
+                  Chats
+                </span>
+                <span
+                  className=""
+                  onClick={() => {
+                    window.localStorage.user = "";
+                    auth.setAuth(false);
+                  }}
+                >
+                  Logout
+                </span>
+              </>
+            ))}
           <button
             onClick={() => {
               if (!auth.isAuth) {
-                setLoginPopup(true);
                 setLoginMsg("You need to login first in order to post!");
+                setLoginPopup(true);
               } else {
                 history.push("/post-ad");
               }

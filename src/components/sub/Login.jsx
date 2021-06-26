@@ -24,7 +24,7 @@ const Login = (props) => {
       email.nextElementSibling.innerText = "";
     }
     if (!password.value) {
-      password.nextElementSibling.innerText = "password can't be empty";
+      password.nextElementSibling.innerText = "Password can't be empty";
     } else if (
       !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
         password.value

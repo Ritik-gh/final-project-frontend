@@ -1,5 +1,6 @@
 import { useState, createContext } from "react";
 import Header from "./components/sub/Header";
+import Footer from "./components/sub/Footer";
 import Router from "./router.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/app.css";
@@ -25,6 +26,7 @@ const App = () => {
         <main>
           <Router />
         </main>
+        <Footer />
       </Auth.Provider>
     </>
   );
