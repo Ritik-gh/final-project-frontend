@@ -36,18 +36,22 @@ const Chats = () => {
   const [chats, setChats] = useState();
   const [enduser, setEnduser] = useState();
   const [msg, setMsg] = useState();
+  const [loading, setLoading] = useState(false);
   const msgInputRef = useRef();
 
   const getChats = async () => {
-    const response = await fetch(`${baseUrl}/get-chats`, {
-      headers: {
-        auth: window.localStorage.token,
-      },
-    });
     try {
+      setLoading(true);
+      const response = await fetch(`${baseUrl}/get-chats`, {
+        headers: {
+          auth: window.localStorage.token,
+        },
+      });
       const data = await response.json();
       setChats(data);
       setEnduser(data[0].enduser);
+      setLoading(false);
+
       console.log("user chats", data);
     } catch (err) {
       console.log(err);
@@ -56,6 +60,7 @@ const Chats = () => {
 
   const getProfile = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`${baseUrl}/get-user?userId=${bidderId}`, {
         headers: {
           auth: window.localStorage.token,
@@ -63,6 +68,7 @@ const Chats = () => {
       });
       const data = await response.json();
       setEnduser(data);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -92,7 +98,9 @@ const Chats = () => {
   return (
     <>
       <div className={`container-fluid`}>
-        {!bidderId && chats && chats.length === 0 ? (
+        {loading ? (
+          <article className="loader" />
+        ) : !bidderId && chats && chats.length === 0 ? (
           "No chats yet!"
         ) : (
           <>

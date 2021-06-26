@@ -1,19 +1,32 @@
-$primary: #0ae8ca;
-$dark-1: #2d2d2d;
-$dark-2: #202020;
-$dark-3: #131313;
-$dark-4: #000000;
-$light-1: #ffffff;
-$light-2: #f9f9f9;
-$light-3: #ececec;
-$light-4: #dfdfdf;
-$danger: #dc3545;
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
+
+html {
+  --primary: #0ae8ca;
+  --dark-1: #2d2d2d;
+  --dark-2: #202020;
+  --dark-3: #131313;
+  --dark-4: #000000;
+  --light-1: #ffffff;
+  --light-2: #f9f9f9;
+  --light-3: #ececec;
+  --light-4: #dfdfdf;
+  --danger: #dc3545;
+}
+
+$primary: var(--primary);
+$dark-1: var(--dark-1);
+$dark-2: var(--dark-2);
+$dark-3: var(--dark-3);
+$dark-4: var(--dark-4);
+$light-1: var(--light-1);
+$light-2: var(--light-2);
+$light-3: var(--light-3);
+$light-4: var(--light-4);
+$danger: var(--danger);
 
 // fonts
 @font-face {
@@ -59,6 +72,36 @@ body {
   .header-space {
     // margin-top: clamp(16px, 1.8vw, 32px);
     margin-top: 16px;
+  }
+}
+
+// loader
+.loader {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+  &::after {
+    background-color: $light-2;
+    height: clamp(30px, 3vw, 50px);
+    width: clamp(30px, 3vw, 50px);
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 2px solid $dark-3;
+    border-top: 2px solid $light-2;
+    border-radius: 50%;
+    animation: spin 1s infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
