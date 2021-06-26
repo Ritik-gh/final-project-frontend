@@ -37,14 +37,9 @@ const Profile = () => {
         <article className="loader" />
       ) : (
         <div className="container-fluid header-space footer-space">
-          <section className="row mb-3">
-            <article className="col-6">
-              {user?.first_name}&nbsp;
-              {user?.last_name}
-            </article>
-            <article className="col-6">{user?.email_address}</article>
-          </section>
-          <h1 className="mb-3">Your Active Posts</h1>
+          <h5 className="mb-3 fw-bold">
+            Hello {user?.first_name}, Here are Your Active Posts
+          </h5>
           <section className="row">
             {posts?.map(
               (post, index) =>

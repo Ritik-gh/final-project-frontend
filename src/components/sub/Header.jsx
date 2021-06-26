@@ -59,8 +59,9 @@ const Header = () => {
                   <span
                     className=""
                     onClick={() => {
-                      window.localStorage.user = "";
+                      window.localStorage.token = "";
                       auth.setAuth(false);
+                      history.push("/");
                     }}
                   >
                     Logout

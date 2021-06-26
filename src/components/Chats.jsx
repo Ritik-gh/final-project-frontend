@@ -5,6 +5,7 @@ import PostCard from "./sub/PostCard.jsx";
 import { Auth } from "../App.js";
 import socketIOClient, { io } from "socket.io-client";
 import useIsMobile from "../customHooks/useIsMobile";
+import leftArrow from "../assets/images/left-arrow.svg";
 
 const socket = io(baseUrl, {
   auth: {
@@ -34,10 +35,27 @@ const Chats = () => {
   const auth = useContext(Auth);
   const history = useHistory();
   const [chats, setChats] = useState();
-  const [enduser, setEnduser] = useState();
+  const [activeChat, setActiveChat] = useState();
   const [msg, setMsg] = useState();
   const [loading, setLoading] = useState(true);
   const msgInputRef = useRef();
+
+  const getProfile = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${baseUrl}/get-user?userId=${bidderId}`, {
+        headers: {
+          auth: window.localStorage.token,
+        },
+      });
+      const data = await response.json();
+      setActiveChat(data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
 
   const getChats = async () => {
     try {
@@ -49,41 +67,28 @@ const Chats = () => {
       });
       const data = await response.json();
       setChats(data);
-      setEnduser(data[0].enduser);
+      setActiveChat(data[0]);
       setLoading(false);
-
       console.log("user chats", data);
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const getProfile = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${baseUrl}/get-user?userId=${bidderId}`, {
-        headers: {
-          auth: window.localStorage.token,
-        },
-      });
-      const data = await response.json();
-      setEnduser(data);
       setLoading(false);
-    } catch (err) {
-      console.log(err);
     }
   };
 
   function displaySentMsg() {
-    const pTag = document.createElement("P");
-    pTag.innerText = msg;
-    chatSectionRef.current.appendChild(pTag);
+    const divTag = document.createElement("DIV");
+    const spanTag = document.createElement("SPAN");
+    spanTag.innerText = msg;
+    divTag.classList = "chat-msg right";
+    divTag.appendChild(spanTag);
+    chatSectionRef.current.appendChild(divTag);
     setMsg("");
   }
 
   function sendMsg() {
     socket.emit("send_msg", {
-      receiverId: bidderId,
+      receiverId: activeChat.enduser.id,
       msg: msg,
     });
     displaySentMsg();
@@ -93,7 +98,7 @@ const Chats = () => {
   useEffect(() => {
     bidderId && getProfile();
     getChats();
-  }, []);
+  }, [auth.isAuth]);
 
   return (
     <>
@@ -112,21 +117,21 @@ const Chats = () => {
                       <p
                         onClick={(e) => {
                           const recentElement = document.getElementById(
-                            enduser?.id
+                            activeChat?.enduser.id
                           );
                           if (recentElement.classList.contains("active")) {
                             recentElement.classList.remove("active");
                           }
                           const chat = chats.filter((chat) => {
                             return chat.enduser.id == e.target.id;
-                          })[0].enduser;
+                          })[0];
                           if (!e.target.classList.contains("active")) {
                             e.target.classList.add("active");
                             chatSectionRef.current
                               .closest(".chat-div")
                               .classList.add("active");
                           }
-                          setEnduser(chat);
+                          setActiveChat(chat);
                         }}
                         id={chat.enduser.id}
                         key={chat.enduser}
@@ -136,8 +141,10 @@ const Chats = () => {
                       </p>
                     ))
                   ) : (
-                    <p id={enduser?.id} className="active">
-                      {enduser?.first_name + " " + enduser?.last_name}
+                    <p id={activeChat?.enduser.id} className="active">
+                      {activeChat?.enduser.first_name +
+                        " " +
+                        activeChat?.enduser.last_name}
                     </p>
                   )}
                 </div>
@@ -148,7 +155,7 @@ const Chats = () => {
                   onClick={(e) => {
                     const currentTarget = e.currentTarget;
                     if (
-                      e.target.nodeName === "SPAN" &&
+                      e.target.nodeName === "IMG" &&
                       currentTarget.classList.contains("active")
                     ) {
                       currentTarget.classList.remove("active");
@@ -156,10 +163,24 @@ const Chats = () => {
                   }}
                 >
                   <section className="">
-                    <span className="me-3">Back</span>
-                    {`${enduser?.first_name} ${enduser?.last_name}`}
+                    <figure className="back-arrow">
+                      <img src={leftArrow} alt="" />
+                    </figure>
+                    {`${activeChat?.enduser.first_name} ${activeChat?.enduser.last_name}`}
                   </section>
-                  <section className="" ref={chatSectionRef}></section>
+                  <section className="" ref={chatSectionRef}>
+                    {activeChat &&
+                      activeChat.msgs.length > 0 &&
+                      activeChat.msgs.map((msg) => (
+                        <div
+                          className={`chat-msg ${
+                            msg.type === "sent" ? "right" : "left"
+                          }`}
+                        >
+                          <span>{msg.msg}</span>
+                        </div>
+                      ))}
+                  </section>
                   <section className={`form-input `}>
                     <div className={`${msg ? "has-msg" : ""}`}>
                       <input

@@ -19,7 +19,7 @@ const PostAd = () => {
   const [itemDesciptionError, setItemDescriptionError] = useState(null);
 
   const [itemImgMsg, setItemImgMsg] = useState(
-    "DROP IMAGE HERE OR Click here to upload"
+    "Drop image or Click here to upload"
   );
 
   const data = new FormData();

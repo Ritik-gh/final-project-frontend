@@ -43,7 +43,7 @@ const Home = () => {
                         {...post}
                         key={index}
                         clickFunc={() => {
-                          history.push(`/post/${post.post_id}`);
+                          history.push(`/post/${post.post_id}/#details`);
                         }}
                       />
                     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import sampleImageOne from "../assets/images/sample-1.jpg";
 import BidPopup from "./sub/BidPopup.jsx";
 import ContactPopup from "./sub/ContactPopup.jsx";
@@ -15,6 +15,7 @@ function Post() {
   const [bidPopupBool, setBidPopupBool] = useState(false);
   const [contactPopupBool, setContactPopupBool] = useState(false);
   const [markAsSoldPopup, setMarkAsSoldPopup] = useState(false);
+  const detailsRef = useRef();
   console.log("params", id);
   const getPost = async () => {
     const response = await fetch(
@@ -75,9 +76,12 @@ function Post() {
                 </figure>
               </article>
             </section>
-            <div className="d-flex align-items-center justify-content-between w-100 my-3">
-              <p className="item-name pr-2">{post.item_name}</p>
-              <p className="item-age pl-2">
+            <div
+              className="d-flex align-items-center justify-content-between w-100 my-3"
+              ref={detailsRef}
+            >
+              <p className="item-name pe-2">{post.item_name}</p>
+              <p className="item-age ps-2">
                 {post.items_estimated_age} years old
               </p>
             </div>

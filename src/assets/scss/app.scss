@@ -38,6 +38,23 @@ $danger: var(--danger);
 ::-webkit-scrollbar {
   width: 10px;
   height: 2px;
+  border-radius: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $light-4;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $dark-2;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $dark-3;
 }
 
 // Hide number input type arrows
@@ -164,7 +181,7 @@ header {
 
   &:hover,
   &:focus {
-    box-shadow: 2.5px 2.5px rgba($dark-2, 1);
+    box-shadow: 2.5px 2.5px $dark-2;
   }
 
   &.inactive {
@@ -190,6 +207,7 @@ header {
   transition: box-shadow 0.5s;
   border-radius: 5px;
   font-size: clamp(10px, 1vw, 16px);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   &:hover {
     box-shadow: 5px 5px $dark-2;
   }
@@ -229,7 +247,7 @@ header {
     transition: box-shadow 0.5s;
     &:focus,
     &:hover {
-      box-shadow: 3px 3px $dark-3;
+      box-shadow: 3px 3px $dark-2;
       outline: none;
     }
   }
@@ -325,7 +343,10 @@ form {
   }
   .item-name {
     font-weight: bold;
-    font-size: clamp(20px, 1.75vw, 28px);
+    font-size: clamp(18px, 1.75vw, 28px);
+  }
+  .item-age {
+    font-size: clamp(14px, 1vw, 16px);
   }
   td {
     vertical-align: top;
@@ -352,6 +373,14 @@ form {
   display: flex;
   flex-direction: column;
   background-color: $light-2;
+  .back-arrow {
+    margin-bottom: 0;
+    margin-right: 8px;
+    cursor: pointer;
+    img {
+      width: 28px;
+    }
+  }
   section:nth-child(1) {
     background-color: $primary;
     padding: 0 16px;
@@ -359,9 +388,50 @@ form {
     height: clamp(40px, 4vw, 60px);
     display: flex;
     align-items: center;
+    font-weight: bold;
+    font-size: clamp(16px, 1.25vw, 20px);
   }
   section:nth-child(2) {
     flex-grow: 1;
+    padding: 16px;
+    .chat-msg {
+      margin-bottom: 8px;
+      span {
+        background-color: var(--primary);
+        color: $dark-3;
+        padding: 0 10px;
+        display: inline-flex;
+        align-items: center;
+        height: 32px;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          border-top: 8px solid transparent;
+        }
+      }
+      &.left {
+        text-align: left;
+        span {
+          border-radius: 6px 6px 6px 0;
+          &::after {
+            border-right: 8px solid $primary;
+            right: 100%;
+          }
+        }
+      }
+      &.right {
+        text-align: right;
+        span {
+          border-radius: 6px 6px 0 6px;
+          &::after {
+            border-left: 8px solid $primary;
+            left: 100%;
+          }
+        }
+      }
+    }
   }
   section:nth-child(3) {
     padding: 16px;
@@ -397,7 +467,9 @@ form {
   height: calc(100vh - 56px);
 
   p {
-    height: clamp(40px, 4vw, 60px);
+    // font-weight: bold;
+    font-size: clamp(16px, 1.25vw, 20px);
+    height: clamp(50px, 4vw, 60px);
     width: 100%;
     padding: 0 16px;
     display: flex;
@@ -426,6 +498,7 @@ form {
   figure {
     margin: 0;
     img {
+      cursor: pointer;
       width: 20px;
       transition: transform 0.25s;
       &:active {
@@ -450,9 +523,13 @@ form {
     top: 56px;
     left: 100%;
     transition: opacity 1s, left 1s;
+    height: calc(100vh - 112px);
     &.active {
       left: 0;
     }
+  }
+  .chat-row-group {
+    height: calc(100vh - 112px);
   }
 }
 @media (min-width: 1200px) {

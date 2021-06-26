@@ -24,6 +24,23 @@ html {
 ::-webkit-scrollbar {
   width: 10px;
   height: 2px;
+  border-radius: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--light-4);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--dark-2);
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-3);
 }
 
 input::-webkit-outer-spin-button,
@@ -132,7 +149,7 @@ header span:hover, header span:focus {
   user-select: none;
 }
 .btn-v1:hover, .btn-v1:focus {
-  box-shadow: 2.5px 2.5px rgba(var(--dark-2), 1);
+  box-shadow: 2.5px 2.5px var(--dark-2);
 }
 .btn-v1.inactive {
   background-color: var(--light-3);
@@ -154,6 +171,7 @@ header span:hover, header span:focus {
   transition: box-shadow 0.5s;
   border-radius: 5px;
   font-size: clamp(10px, 1vw, 16px);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 .post-card:hover {
   box-shadow: 5px 5px var(--dark-2);
@@ -195,7 +213,7 @@ header span:hover, header span:focus {
 .form-input input:focus, .form-input input:hover,
 .form-input textarea:focus,
 .form-input textarea:hover {
-  box-shadow: 3px 3px var(--dark-3);
+  box-shadow: 3px 3px var(--dark-2);
   outline: none;
 }
 .form-input textarea {
@@ -276,7 +294,10 @@ form label {
 }
 .details .item-name {
   font-weight: bold;
-  font-size: clamp(20px, 1.75vw, 28px);
+  font-size: clamp(18px, 1.75vw, 28px);
+}
+.details .item-age {
+  font-size: clamp(14px, 1vw, 16px);
 }
 .details td {
   vertical-align: top;
@@ -296,15 +317,64 @@ form label {
   flex-direction: column;
   background-color: var(--light-2);
 }
+.chat-div .back-arrow {
+  margin-bottom: 0;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.chat-div .back-arrow img {
+  width: 28px;
+}
 .chat-div section:nth-child(1) {
   background-color: var(--primary);
   padding: 0 16px;
   height: clamp(40px, 4vw, 60px);
   display: flex;
   align-items: center;
+  font-weight: bold;
+  font-size: clamp(16px, 1.25vw, 20px);
 }
 .chat-div section:nth-child(2) {
   flex-grow: 1;
+  padding: 16px;
+}
+.chat-div section:nth-child(2) .chat-msg {
+  margin-bottom: 8px;
+}
+.chat-div section:nth-child(2) .chat-msg span {
+  background-color: var(--primary);
+  color: var(--dark-3);
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  position: relative;
+}
+.chat-div section:nth-child(2) .chat-msg span::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  border-top: 8px solid transparent;
+}
+.chat-div section:nth-child(2) .chat-msg.left {
+  text-align: left;
+}
+.chat-div section:nth-child(2) .chat-msg.left span {
+  border-radius: 6px 6px 6px 0;
+}
+.chat-div section:nth-child(2) .chat-msg.left span::after {
+  border-right: 8px solid var(--primary);
+  right: 100%;
+}
+.chat-div section:nth-child(2) .chat-msg.right {
+  text-align: right;
+}
+.chat-div section:nth-child(2) .chat-msg.right span {
+  border-radius: 6px 6px 0 6px;
+}
+.chat-div section:nth-child(2) .chat-msg.right span::after {
+  border-left: 8px solid var(--primary);
+  left: 100%;
 }
 .chat-div section:nth-child(3) {
   padding: 16px;
@@ -339,7 +409,8 @@ form label {
   height: calc(100vh - 56px);
 }
 .chat-row-group p {
-  height: clamp(40px, 4vw, 60px);
+  font-size: clamp(16px, 1.25vw, 20px);
+  height: clamp(50px, 4vw, 60px);
   width: 100%;
   padding: 0 16px;
   display: flex;
@@ -368,6 +439,7 @@ form label {
   margin: 0;
 }
 .bottom-mobile-nav figure img {
+  cursor: pointer;
   width: 20px;
   transition: transform 0.25s;
 }
@@ -389,9 +461,14 @@ form label {
     top: 56px;
     left: 100%;
     transition: opacity 1s, left 1s;
+    height: calc(100vh - 112px);
   }
   .chat-div.active {
     left: 0;
+  }
+
+  .chat-row-group {
+    height: calc(100vh - 112px);
   }
 }
 @media (min-width: 1200px) {
