@@ -4,6 +4,7 @@ import baseUrl from "../config";
 import PostCard from "./sub/PostCard.jsx";
 import { Auth } from "../App.js";
 import socketIOClient, { io } from "socket.io-client";
+import useIsMobile from "../customHooks/useIsMobile";
 
 const socket = io(baseUrl, {
   auth: {
@@ -22,11 +23,12 @@ socket.on("receive_msg", (msg) => {
   console.log(msg);
 });
 
-socket.on("connect_error", (err) => {
+socket.on("connectError", (err) => {
   console.log(err);
 });
 
 const Chats = () => {
+  const isMobile = useIsMobile();
   const { bidderId } = useParams();
   const chatSectionRef = useRef();
   const auth = useContext(Auth);
@@ -45,6 +47,7 @@ const Chats = () => {
     try {
       const data = await response.json();
       setChats(data);
+      setEnduser(data[0].enduser);
       console.log("user chats", data);
     } catch (err) {
       console.log(err);
@@ -84,7 +87,6 @@ const Chats = () => {
   useEffect(() => {
     bidderId && getProfile();
     getChats();
-    console.log("enduser", enduser);
   }, []);
 
   return (
@@ -94,58 +96,83 @@ const Chats = () => {
           "No chats yet!"
         ) : (
           <>
-            <section className="row">
-              <article className="col-4">
-                {chats && chats.length > 0 ? (
-                  chats?.map((chat) => (
-                    <p
-                      onClick={(e) => {
-                        const chat = chats.filter((chat) => {
-                          return chat.enduser.id == e.target.id;
-                        })[0].enduser;
-                        setEnduser(chat);
-                      }}
-                      id={chat.enduser.id}
-                      key={chat.enduser}
-                    >
-                      {chat.enduser.first_name + " " + chat.enduser.last_name}
+            <section className="row position-relative">
+              <article className="col-md-4 px-0">
+                <div className="chat-row-group">
+                  {chats && chats.length > 0 ? (
+                    chats?.map((chat, index) => (
+                      <p
+                        onClick={(e) => {
+                          const recentElement = document.getElementById(
+                            enduser?.id
+                          );
+                          if (recentElement.classList.contains("active")) {
+                            recentElement.classList.remove("active");
+                          }
+                          const chat = chats.filter((chat) => {
+                            return chat.enduser.id == e.target.id;
+                          })[0].enduser;
+                          if (!e.target.classList.contains("active")) {
+                            e.target.classList.add("active");
+                            chatSectionRef.current
+                              .closest(".chat-div")
+                              .classList.add("active");
+                          }
+                          setEnduser(chat);
+                        }}
+                        id={chat.enduser.id}
+                        key={chat.enduser}
+                        className={!isMobile && index === 0 ? "active" : ""}
+                      >
+                        {chat.enduser.first_name + " " + chat.enduser.last_name}
+                      </p>
+                    ))
+                  ) : (
+                    <p id={enduser?.id} className="active">
+                      {enduser?.first_name + " " + enduser?.last_name}
                     </p>
-                  ))
-                ) : (
-                  <p id={enduser?.id}>
-                    {enduser?.first_name + " " + enduser?.last_name}
-                  </p>
-                )}
+                  )}
+                </div>
               </article>
-              <article className="col-8">
-                {enduser ? (
-                  <div className="chat-div">
-                    <section className="">{`${enduser?.first_name} ${enduser?.last_name}`}</section>
-                    <section className="" ref={chatSectionRef}></section>
-                    <section className={`form-input `}>
-                      <div className={`${msg ? "has-msg" : ""}`}>
-                        <input
-                          type="text"
-                          name=""
-                          id=""
-                          placeholder="Type a Message"
-                          autoFocus
-                          value={msg}
-                          onChange={(e) => {
-                            setMsg(e.target.value);
-                          }}
-                          ref={msgInputRef}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") sendMsg();
-                          }}
-                        />
-                        <span onClick={sendMsg}>{">"}</span>
-                      </div>
-                    </section>
-                  </div>
-                ) : (
-                  "Chat with buyers and sellers"
-                )}
+              <article className="col-md-8 px-0">
+                <div
+                  className={`chat-div`}
+                  onClick={(e) => {
+                    const currentTarget = e.currentTarget;
+                    if (
+                      e.target.nodeName === "SPAN" &&
+                      currentTarget.classList.contains("active")
+                    ) {
+                      currentTarget.classList.remove("active");
+                    }
+                  }}
+                >
+                  <section className="">
+                    <span className="me-3">Back</span>
+                    {`${enduser?.first_name} ${enduser?.last_name}`}
+                  </section>
+                  <section className="" ref={chatSectionRef}></section>
+                  <section className={`form-input `}>
+                    <div className={`${msg ? "has-msg" : ""}`}>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        placeholder="Type a Message"
+                        autoFocus
+                        value={msg}
+                        onChange={(e) => {
+                          setMsg(e.target.value);
+                        }}
+                        ref={msgInputRef}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") sendMsg();
+                        }}
+                      />
+                      <span onClick={sendMsg}>{">"}</span>
+                    </div>
+                  </section>
+                </div>
               </article>
             </section>
           </>

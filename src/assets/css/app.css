@@ -238,12 +238,12 @@ form label {
   padding: 0;
   display: flex;
   flex-direction: column;
+  background-color: #f9f9f9;
 }
 .chat-div section:nth-child(1) {
-  background-color: #ececec;
+  background-color: #0ae8ca;
   padding: 0 16px;
-  border: 2px solid #131313;
-  height: 60px;
+  height: clamp(40px, 4vw, 60px);
   display: flex;
   align-items: center;
 }
@@ -278,6 +278,24 @@ form label {
   background-color: #ffffff;
 }
 
+.chat-row-group {
+  background-color: #ececec;
+  height: calc(100vh - 56px);
+}
+.chat-row-group p {
+  height: clamp(40px, 4vw, 60px);
+  width: 100%;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-top: 1px solid #131313;
+  border-bottom: 1px solid #131313;
+}
+.chat-row-group p:hover, .chat-row-group p.active {
+  background-color: #dfdfdf;
+}
+
 @media (max-width: 767px) {
   .post-card > div {
     padding: 4px;
@@ -285,6 +303,16 @@ form label {
 
   ::-webkit-scrollbar {
     width: 0;
+  }
+
+  .chat-div {
+    position: fixed;
+    top: 56px;
+    left: 100%;
+    transition: opacity 1s, left 1s;
+  }
+  .chat-div.active {
+    left: 0;
   }
 }
 @media (min-width: 1200px) {
