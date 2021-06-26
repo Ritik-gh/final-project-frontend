@@ -73,11 +73,17 @@ body {
     // margin-top: clamp(16px, 1.8vw, 32px);
     margin-top: 16px;
   }
+
+  .footer-space {
+    margin-bottom: 60px;
+  }
 }
 
 // loader
 .loader {
   position: fixed;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   z-index: 999;
@@ -112,13 +118,23 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  section {
+  section > div {
     height: 56px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0;
   }
   // margin-bottom: 32px;
+  .site-logo {
+    margin-bottom: -8px;
+    height: 60%;
+    cursor: pointer;
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
   span {
     cursor: pointer;
     &:hover,
@@ -175,7 +191,7 @@ header {
   border-radius: 5px;
   font-size: clamp(10px, 1vw, 16px);
   &:hover {
-    box-shadow: 5px 5px rgba($dark-2, 1);
+    box-shadow: 5px 5px $dark-2;
   }
   img {
     border-radius: 5px;
@@ -184,10 +200,10 @@ header {
     padding: 8px;
   }
   p:first-child {
-    font-size: clamp(14px, 1vw, 20px);
+    font-size: clamp(12px, 1vw, 20px);
   }
   p:nth-child(2) {
-    font-size: clamp(16px, 1.5vw, 24px);
+    font-size: clamp(14px, 1.5vw, 24px);
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
@@ -407,6 +423,16 @@ form {
   height: 56px;
   background-color: $light-3;
   z-index: 1;
+  figure {
+    margin: 0;
+    img {
+      width: 20px;
+      transition: transform 0.25s;
+      &:active {
+        transform: scale(0.8);
+      }
+    }
+  }
 }
 
 // media queries

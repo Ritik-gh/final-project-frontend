@@ -36,7 +36,7 @@ const Profile = () => {
       {loading ? (
         <article className="loader" />
       ) : (
-        <div className="container-fluid header-space">
+        <div className="container-fluid header-space footer-space">
           <section className="row mb-3">
             <article className="col-6">
               {user?.first_name}&nbsp;

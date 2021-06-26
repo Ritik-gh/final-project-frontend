@@ -65,7 +65,7 @@ function Post() {
           />
         </>
       )}
-      <div className="container-fluid details">
+      <div className="container-fluid details footer-space">
         {post && (
           <>
             <section className="row">

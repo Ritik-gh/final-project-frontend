@@ -21,7 +21,7 @@ const Settings = () => {
         subtitle={loginMsg}
       />
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
-      <div className="container-fluid header-space">
+      <div className="container-fluid header-space footer-space">
         {!auth.isAuth ? (
           <>
             <p onClick={() => setLoginPopup(true)}>Login</p>

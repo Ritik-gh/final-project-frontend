@@ -4,6 +4,7 @@ import { Auth } from "../../App.js";
 import LoginPopup from "./Login";
 import RegisterPopup from "./Register";
 import useIsMobile from "../../customHooks/useIsMobile.js";
+import logo from "../../assets/images/logo.svg";
 const Header = () => {
   const isMobile = useIsMobile();
   const history = useHistory();
@@ -20,63 +21,67 @@ const Header = () => {
       />
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
       <header className="container-fluid">
-        <section className="justify-content-between justify-content-md-evenly">
-          <span className="" onClick={() => history.push("/")}>
-            Home
-          </span>
-
-          {!isMobile &&
-            (!auth.isAuth ? (
-              <>
-                <span className="" onClick={() => setLoginPopup(true)}>
-                  Login
-                </span>
-                <span className="" onClick={() => setRegisterPopup(true)}>
-                  Register
-                </span>
-              </>
-            ) : (
-              <>
-                <span
-                  className=""
-                  onClick={() => {
-                    history.push("/profile");
-                  }}
-                >
-                  Profile
-                </span>
-                <span
-                  className=""
-                  onClick={() => {
-                    history.push("/chats");
-                  }}
-                >
-                  Chats
-                </span>
-                <span
-                  className=""
-                  onClick={() => {
-                    window.localStorage.user = "";
-                    auth.setAuth(false);
-                  }}
-                >
-                  Logout
-                </span>
-              </>
-            ))}
-          <button
-            onClick={() => {
-              if (!auth.isAuth) {
-                setLoginMsg("You need to login first in order to post!");
-                setLoginPopup(true);
-              } else {
-                history.push("/post-ad");
-              }
-            }}
-            className="btn-v1"
-          >
-            POST
-          </button>
+        <section className="row">
+          <div className="col-md-4 col-xl-6">
+            <figure className="site-logo" onClick={() => history.push("/")}>
+              <img src={logo} alt="" />
+            </figure>
+          </div>
+          {!isMobile && (
+            <div className="col-md-8 col-xl-6">
+              {!auth.isAuth ? (
+                <>
+                  <span className="" onClick={() => setLoginPopup(true)}>
+                    Login
+                  </span>
+                  <span className="" onClick={() => setRegisterPopup(true)}>
+                    Register
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span
+                    className=""
+                    onClick={() => {
+                      history.push("/profile");
+                    }}
+                  >
+                    Profile
+                  </span>
+                  <span
+                    className=""
+                    onClick={() => {
+                      history.push("/chats");
+                    }}
+                  >
+                    Chats
+                  </span>
+                  <span
+                    className=""
+                    onClick={() => {
+                      window.localStorage.user = "";
+                      auth.setAuth(false);
+                    }}
+                  >
+                    Logout
+                  </span>
+                </>
+              )}
+              <button
+                onClick={() => {
+                  if (!auth.isAuth) {
+                    setLoginPopup(true);
+                    setLoginMsg("You need to login first in order to post!");
+                  } else {
+                    history.push("/post-ad");
+                  }
+                }}
+                className="btn-v1"
+              >
+                POST
+              </button>
+            </div>
+          )}
         </section>
       </header>
     </>

@@ -36,7 +36,7 @@ const Chats = () => {
   const [chats, setChats] = useState();
   const [enduser, setEnduser] = useState();
   const [msg, setMsg] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const msgInputRef = useRef();
 
   const getChats = async () => {

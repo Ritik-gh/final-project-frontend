@@ -29,7 +29,7 @@ const Home = () => {
       {loading ? (
         <article className="loader" />
       ) : (
-        <div className="container-fluid header-space">
+        <div className="container-fluid header-space footer-space">
           <section className="row">
             {posts && posts.length > 0 ? (
               posts.map(

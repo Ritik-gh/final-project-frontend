@@ -51,9 +51,14 @@ body figure {
 body .header-space {
   margin-top: 16px;
 }
+body .footer-space {
+  margin-bottom: 60px;
+}
 
 .loader {
   position: fixed;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   z-index: 999;
@@ -87,11 +92,21 @@ header {
   left: 0;
   right: 0;
 }
-header section {
+header section > div {
   height: 56px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0;
+}
+header .site-logo {
+  margin-bottom: -8px;
+  height: 60%;
+  cursor: pointer;
+}
+header .site-logo img {
+  height: 100%;
+  width: auto;
 }
 header span {
   cursor: pointer;
@@ -141,7 +156,7 @@ header span:hover, header span:focus {
   font-size: clamp(10px, 1vw, 16px);
 }
 .post-card:hover {
-  box-shadow: 5px 5px rgba(var(--dark-2), 1);
+  box-shadow: 5px 5px var(--dark-2);
 }
 .post-card img {
   border-radius: 5px;
@@ -150,10 +165,10 @@ header span:hover, header span:focus {
   padding: 8px;
 }
 .post-card p:first-child {
-  font-size: clamp(14px, 1vw, 20px);
+  font-size: clamp(12px, 1vw, 20px);
 }
 .post-card p:nth-child(2) {
-  font-size: clamp(16px, 1.5vw, 24px);
+  font-size: clamp(14px, 1.5vw, 24px);
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
@@ -348,6 +363,16 @@ form label {
   height: 56px;
   background-color: var(--light-3);
   z-index: 1;
+}
+.bottom-mobile-nav figure {
+  margin: 0;
+}
+.bottom-mobile-nav figure img {
+  width: 20px;
+  transition: transform 0.25s;
+}
+.bottom-mobile-nav figure img:active {
+  transform: scale(0.8);
 }
 
 @media (max-width: 767px) {
