@@ -290,6 +290,19 @@ form label {
   padding-right: 16px;
 }
 
+.back-arrow {
+  margin-bottom: 0;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.back-arrow img {
+  width: 28px;
+  transform: rotate(180deg);
+}
+.back-arrow.page {
+  margin-bottom: 8px;
+}
+
 .chat-div {
   width: 100%;
   height: calc(100vh - 56px);
@@ -300,16 +313,8 @@ form label {
   background-color: var(--light-2);
   border-left: 1px solid var(--dark-1);
 }
-.chat-div .back-arrow {
-  margin-bottom: 0;
-  margin-right: 8px;
-  cursor: pointer;
-}
-.chat-div .back-arrow img {
-  width: 28px;
-}
 .chat-div section:nth-child(1) {
-  background-color: var(--primary);
+  background-color: var(--light-4);
   padding: 0 16px;
   height: clamp(50px, 4vw, 60px);
   display: flex;
@@ -459,11 +464,30 @@ form label {
   .chat-row-group {
     height: calc(100vh - 112px);
   }
+
+  .settings p {
+    height: 40px;
+    border-bottom: 1px solid var(--dark-1);
+    background-color: var(--light-2);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .settings p:active {
+    background-color: var(--light-4);
+  }
+  .settings p.page::after {
+    content: url("../images/menu-right.svg");
+    position: absolute;
+    right: 16px;
+    top: 13px;
+  }
 }
 @media (min-width: 1200px) {
   .container-fluid {
-    padding-left: 230px;
-    padding-right: 230px;
+    padding-left: 120px;
+    padding-right: 120px;
   }
 }
 

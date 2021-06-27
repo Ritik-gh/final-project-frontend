@@ -18,10 +18,15 @@ function Post() {
   const detailsRef = useRef();
   console.log("params", id);
   const getPost = async () => {
-    const response = await fetch(
-      `${baseUrl}/get-posts?postId=${id}&user=${window.localStorage.token}`
-    );
     try {
+      let response;
+      if (window.localStorage.token) {
+        response = await fetch(
+          `${baseUrl}/get-posts?postId=${id}&user=${window.localStorage.token}`
+        );
+      } else {
+        response = await fetch(`${baseUrl}/get-posts?postId=${id}`);
+      }
       let data = await response.json();
       if (data.bidderDetails) {
         setBidderDetails(data.bidderDetails);
@@ -70,7 +75,7 @@ function Post() {
         {post && (
           <>
             <section className="row">
-              <article className="col px-0">
+              <article className="col">
                 <figure className="img-wrapper">
                   <img src={post.item_image} alt="" className="w-100" />
                 </figure>

@@ -1,17 +1,28 @@
 import { useEffect, useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Auth } from "../../App.js";
 import LoginPopup from "./Login";
 import RegisterPopup from "./Register";
 import useIsMobile from "../../customHooks/useIsMobile.js";
 import logo from "../../assets/images/logo.svg";
+import leftArrow from "../../assets/images/menu-right.svg";
+
 const Header = () => {
+  const { pathname } = useLocation();
   const isMobile = useIsMobile();
   const history = useHistory();
   const auth = useContext(Auth);
   const [loginPopup, setLoginPopup] = useState(false);
   const [registerPopup, setRegisterPopup] = useState(false);
   const [loginMsg, setLoginMsg] = useState("");
+  const [showBackBtn, setShowBackBtn] = useState(false);
+  useEffect(() => {
+    if (pathname.startsWith("/post/") || pathname === "/profile") {
+      setShowBackBtn(true);
+    } else {
+      setShowBackBtn(false);
+    }
+  }, [pathname]);
   return (
     <>
       <LoginPopup
@@ -22,7 +33,17 @@ const Header = () => {
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
       <header className="container-fluid">
         <section className="row">
-          <div className="col-md-4 col-xl-6">
+          <div className="col-md-4 col-xl-6 justify-content-start">
+            {isMobile && showBackBtn && (
+              <figure
+                className="back-arrow"
+                onClick={() => {
+                  history.go(-1);
+                }}
+              >
+                <img src={leftArrow} alt="" />
+              </figure>
+            )}
             <figure className="site-logo" onClick={() => history.push("/")}>
               <img src={logo} alt="" />
             </figure>

@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import baseUrl from "../config";
 import PostCard from "./sub/PostCard.jsx";
 import { Auth } from "../App.js";
+import useIsMobile from "../customHooks/useIsMobile";
 
 const Profile = () => {
   const auth = useContext(Auth);
@@ -10,6 +11,7 @@ const Profile = () => {
   const [user, setUser] = useState();
   const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(false);
+  const isMobile = useIsMobile();
   const getProfile = async () => {
     try {
       setLoading(true);

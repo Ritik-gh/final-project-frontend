@@ -21,22 +21,32 @@ const Settings = () => {
         subtitle={loginMsg}
       />
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
-      <div className="container-fluid header-space footer-space">
+      <div className="container-fluid header-space footer-space settings">
         {!auth.isAuth ? (
           <>
             <p onClick={() => setLoginPopup(true)}>Login</p>
             <p onClick={() => setRegisterPopup(true)}>Register</p>
           </>
         ) : (
-          <p
-            onClick={() => {
-              window.localStorage.token = "";
-              auth.setAuth(false);
-              history.push("/");
-            }}
-          >
-            Logout
-          </p>
+          <>
+            <p
+              className="page"
+              onClick={() => {
+                history.push("/profile");
+              }}
+            >
+              Profile
+            </p>
+            <p
+              onClick={() => {
+                window.localStorage.token = "";
+                auth.setAuth(false);
+                history.push("/");
+              }}
+            >
+              Logout
+            </p>
+          </>
         )}
       </div>
     </>

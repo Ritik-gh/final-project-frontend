@@ -365,6 +365,19 @@ form {
   // }
 }
 
+.back-arrow {
+  margin-bottom: 0;
+  margin-right: 8px;
+  cursor: pointer;
+  img {
+    width: 28px;
+    transform: rotate(180deg);
+  }
+  &.page {
+    margin-bottom: 8px;
+  }
+}
+
 // chat
 .chat-div {
   width: 100%;
@@ -375,16 +388,9 @@ form {
   flex-direction: column;
   background-color: $light-2;
   border-left: 1px solid $dark-1;
-  .back-arrow {
-    margin-bottom: 0;
-    margin-right: 8px;
-    cursor: pointer;
-    img {
-      width: 28px;
-    }
-  }
+
   section:nth-child(1) {
-    background-color: $primary;
+    background-color: $light-4;
     padding: 0 16px;
     // border: 2px solid $dark-3;
     height: clamp(50px, 4vw, 60px);
@@ -402,7 +408,7 @@ form {
     .chat-msg {
       margin-bottom: 8px;
       span {
-        background-color: var(--primary);
+        background-color: $primary;
         color: $dark-3;
         padding: 0 10px;
         display: inline-flex;
@@ -540,10 +546,31 @@ form {
   .chat-row-group {
     height: calc(100vh - 112px);
   }
+  .settings {
+    p {
+      height: 40px;
+      // border-top: 1px solid $dark-1;
+      border-bottom: 1px solid $dark-1;
+      background-color: $light-2;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      &:active {
+        background-color: $light-4;
+      }
+      &.page::after {
+        content: url("../images/menu-right.svg");
+        position: absolute;
+        right: 16px;
+        top: 13px;
+      }
+    }
+  }
 }
 @media (min-width: 1200px) {
   .container-fluid {
-    padding-left: 230px;
-    padding-right: 230px;
+    padding-left: 120px;
+    padding-right: 120px;
   }
 }

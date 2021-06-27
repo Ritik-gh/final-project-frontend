@@ -5,7 +5,7 @@ import PostCard from "./sub/PostCard.jsx";
 import { Auth } from "../App.js";
 import socketIOClient, { io } from "socket.io-client";
 import useIsMobile from "../customHooks/useIsMobile";
-import leftArrow from "../assets/images/left-arrow.svg";
+import leftArrow from "../assets/images/menu-right.svg";
 
 const socket = io(baseUrl, {
   auth: {
@@ -45,7 +45,14 @@ const Chats = () => {
         },
       });
       const data = await response.json();
-      setActiveChat(data);
+      setActiveChat({
+        enduser: {
+          first_name: data.first_name,
+          last_name: data.last_name,
+          id: data.id,
+        },
+        msgs: [],
+      });
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -136,7 +143,7 @@ const Chats = () => {
         {loading ? (
           <article className="loader" />
         ) : !bidderId && chats && chats.length === 0 ? (
-          "No chats yet!"
+          <h3 className="text-center header-space">No chats yet!</h3>
         ) : (
           <>
             <section className="row position-relative">
