@@ -35,27 +35,27 @@ $danger: var(--danger);
 }
 
 // scrollbar
-::-webkit-scrollbar {
-  width: 10px;
-  height: 2px;
-  border-radius: 8px;
-}
+// ::-webkit-scrollbar {
+//   width: 10px;
+//   height: 2px;
+//   border-radius: 8px;
+// }
 
 /* Track */
-::-webkit-scrollbar-track {
-  background: $light-4;
-}
+// ::-webkit-scrollbar-track {
+//   background: $dark-1;
+// }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
-  background: $dark-2;
-  border-radius: 8px;
-}
+// ::-webkit-scrollbar-thumb {
+//   background: $light-3;
+//   border-radius: 8px;
+// }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $dark-3;
-}
+// ::-webkit-scrollbar-thumb:hover {
+//   background: $light-4;
+// }
 
 // Hide number input type arrows
 // Chrome, Safari, Edge, Opera
@@ -70,7 +70,7 @@ input[type="number"] {
 }
 
 body {
-  background: $light-2;
+  background: $light-3;
   color: $dark-3;
   font-family: CascadiaCode;
   margin: 0;
@@ -87,8 +87,8 @@ body {
   //   color: $primary;
   // }
   .header-space {
-    // margin-top: clamp(16px, 1.8vw, 32px);
-    margin-top: 16px;
+    margin-top: clamp(16px, 1.8vw, 32px);
+    // margin-top: 16px;
   }
 
   .footer-space {
@@ -105,15 +105,15 @@ body {
   width: 100%;
   z-index: 999;
   &::after {
-    background-color: $light-2;
+    background-color: $light-3;
     height: clamp(30px, 3vw, 50px);
     width: clamp(30px, 3vw, 50px);
     content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    border: 2px solid $dark-3;
-    border-top: 2px solid $light-2;
+    border: 2px solid $dark-1;
+    border-top: 2px solid $light-3;
     border-radius: 50%;
     animation: spin 1s infinite;
   }
@@ -130,11 +130,12 @@ body {
 
 // header
 header {
-  background-color: $light-3;
+  background-color: $light-2;
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   section > div {
     height: 56px;
     display: flex;
@@ -167,7 +168,7 @@ header {
   color: $dark-3;
   border: none;
   height: 40px;
-  min-width: 100px;
+  min-width: 120px;
   padding: 0 16px;
   font-size: 16px;
   display: flex;
@@ -185,7 +186,7 @@ header {
   }
 
   &.inactive {
-    background-color: $light-3;
+    background-color: $light-4;
     &:hover {
       background-color: $primary;
     }
@@ -201,7 +202,7 @@ header {
 
 // post card
 .post-card {
-  background-color: $light-3;
+  background-color: $light-2;
   cursor: pointer;
   margin-bottom: clamp(16px, 2vw, 32px);
   transition: box-shadow 0.5s;
@@ -240,7 +241,7 @@ header {
     min-width: 200px;
     border-radius: 8px;
     padding: 8px 16px;
-    background-color: $light-3;
+    background-color: $light-2;
     color: $dark-3;
     border: 2px solid $dark-1;
     margin-top: 4px;
@@ -269,8 +270,8 @@ header {
   position: relative;
   width: 100%;
   height: clamp(125px, 20vw, 300px);
-  background: $light-3;
-  color: $light-1;
+  background: $light-2;
+  color: $light-4;
   input {
     // visibility: hidden;
     opacity: 0;
@@ -293,10 +294,10 @@ header {
   &.supports-advance-upload {
     outline: 2px dashed $dark-1;
     outline-offset: -15px;
-    background-color: $light-3;
+    background-color: $light-2;
   }
   &.is-dragover {
-    background-color: $light-1;
+    background-color: $light-4;
   }
 }
 
@@ -314,7 +315,7 @@ form {
   .wrapper {
     padding: clamp(16px, 2vw, 32px);
     border-radius: 16px;
-    background: $light-2;
+    background: $light-3;
     color: $dark-3;
   }
   .modal-title {
@@ -373,6 +374,7 @@ form {
   display: flex;
   flex-direction: column;
   background-color: $light-2;
+  border-left: 1px solid $dark-1;
   .back-arrow {
     margin-bottom: 0;
     margin-right: 8px;
@@ -385,8 +387,9 @@ form {
     background-color: $primary;
     padding: 0 16px;
     // border: 2px solid $dark-3;
-    height: clamp(40px, 4vw, 60px);
+    height: clamp(50px, 4vw, 60px);
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     font-weight: bold;
     font-size: clamp(16px, 1.25vw, 20px);
@@ -394,6 +397,8 @@ form {
   section:nth-child(2) {
     flex-grow: 1;
     padding: 16px;
+    overflow-x: auto;
+
     .chat-msg {
       margin-bottom: 8px;
       span {
@@ -435,7 +440,7 @@ form {
   }
   section:nth-child(3) {
     padding: 16px;
-    background-color: $light-3;
+    background-color: $light-4;
     & > div {
       position: relative;
       span {
@@ -463,8 +468,9 @@ form {
 }
 
 .chat-row-group {
-  background-color: $light-3;
+  background-color: $light-2;
   height: calc(100vh - 56px);
+  overflow-x: auto;
 
   p {
     // font-weight: bold;
@@ -475,8 +481,8 @@ form {
     display: flex;
     align-items: center;
     cursor: pointer;
-    border-top: 1px solid $dark-3;
-    border-bottom: 1px solid $dark-3;
+    border-top: 1px solid $dark-1;
+    border-bottom: 1px solid $dark-1;
     &:hover,
     &.active {
       background-color: $light-4;
@@ -493,7 +499,7 @@ form {
   left: 0;
   width: 100%;
   height: 56px;
-  background-color: $light-3;
+  background-color: $light-2;
   z-index: 1;
   figure {
     margin: 0;
@@ -526,6 +532,9 @@ form {
     height: calc(100vh - 112px);
     &.active {
       left: 0;
+    }
+    section:nth-child(1) {
+      padding: 0 8px;
     }
   }
   .chat-row-group {

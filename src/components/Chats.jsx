@@ -20,10 +20,6 @@ socket.on("connect", () => {
   });
 });
 
-socket.on("receive_msg", (msg) => {
-  console.log(msg);
-});
-
 socket.on("connectError", (err) => {
   console.log(err);
 });
@@ -83,6 +79,22 @@ const Chats = () => {
     divTag.classList = "chat-msg right";
     divTag.appendChild(spanTag);
     chatSectionRef.current.appendChild(divTag);
+    divTag.scrollIntoView({
+      behavior: "smooth",
+    });
+    setMsg("");
+  }
+
+  function displayReceivedMsg(msg) {
+    const divTag = document.createElement("DIV");
+    const spanTag = document.createElement("SPAN");
+    spanTag.innerText = msg;
+    divTag.classList = "chat-msg left";
+    divTag.appendChild(spanTag);
+    chatSectionRef.current.appendChild(divTag);
+    divTag.scrollIntoView({
+      behavior: "smooth",
+    });
     setMsg("");
   }
 
@@ -96,9 +108,27 @@ const Chats = () => {
   }
 
   useEffect(() => {
+    socket.on("receive_msg", (msg) => {
+      console.log(msg);
+      displayReceivedMsg(msg);
+    });
+  }, []);
+
+  useEffect(() => {
     bidderId && getProfile();
     getChats();
   }, [auth.isAuth]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      activeChat &&
+        chatSectionRef.current?.children[
+          chatSectionRef.current?.children.length - 1
+        ].scrollIntoView({
+          behavior: "smooth",
+        });
+    }, 500);
+  }, [activeChat, chatSectionRef.current]);
 
   return (
     <>
@@ -163,15 +193,17 @@ const Chats = () => {
                   }}
                 >
                   <section className="">
-                    <figure className="back-arrow">
-                      <img src={leftArrow} alt="" />
-                    </figure>
+                    {isMobile && (
+                      <figure className="back-arrow">
+                        <img src={leftArrow} alt="" />
+                      </figure>
+                    )}
                     {`${activeChat?.enduser.first_name} ${activeChat?.enduser.last_name}`}
                   </section>
                   <section className="" ref={chatSectionRef}>
                     {activeChat &&
                       activeChat.msgs.length > 0 &&
-                      activeChat.msgs.map((msg) => (
+                      activeChat.msgs.map((msg, index) => (
                         <div
                           className={`chat-msg ${
                             msg.type === "sent" ? "right" : "left"

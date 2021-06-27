@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import useIsMobile from "../../customHooks/useIsMobile";
 import { Auth } from "../../App.js";
 import LoginPopup from "./Login";
@@ -15,10 +15,22 @@ const Footer = () => {
   const isMobile = useIsMobile();
   const auth = useContext(Auth);
   const history = useHistory();
+  const { pathname } = useLocation();
   const [loginPopup, setLoginPopup] = useState(false);
   const [loginMsg, setLoginMsg] = useState("");
-  const [activeIcon, setActiveIcon] = useState(1);
+  const [activeIcon, setActiveIcon] = useState(pathname === "/" && 1);
 
+  useEffect(() => {
+    if (pathname === "/") {
+      setActiveIcon(1);
+    } else if (pathname === "/post-ad") {
+      setActiveIcon(2);
+    } else if (pathname.startsWith("/chats")) {
+      setActiveIcon(3);
+    } else if (pathname === "/settings") {
+      setActiveIcon(4);
+    }
+  }, [pathname]);
   return !isMobile ? (
     <></>
   ) : (
@@ -32,7 +44,6 @@ const Footer = () => {
         <figure
           onClick={() => {
             history.push("/");
-            setActiveIcon(1);
           }}
         >
           <img src={activeIcon === 1 ? homeFill : home} alt="" />
@@ -46,7 +57,6 @@ const Footer = () => {
             } else {
               history.push("/post-ad");
             }
-            setActiveIcon(2);
           }}
         >
           <img src={activeIcon === 2 ? postFill : post} alt="" />
@@ -57,7 +67,6 @@ const Footer = () => {
             <figure
               onClick={() => {
                 history.push("/chats");
-                setActiveIcon(3);
               }}
             >
               <img src={activeIcon === 3 ? chatFill : chat} alt="" />
@@ -67,7 +76,6 @@ const Footer = () => {
         <figure
           onClick={() => {
             history.push("/settings");
-            setActiveIcon(4);
           }}
         >
           <img src={activeIcon === 4 ? settingsFill : settings} alt="" />
