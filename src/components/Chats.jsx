@@ -134,7 +134,7 @@ const Chats = () => {
         ].scrollIntoView({
           behavior: "smooth",
         });
-    }, 500);
+    }, 100);
   }, [activeChat, chatSectionRef.current]);
 
   return (

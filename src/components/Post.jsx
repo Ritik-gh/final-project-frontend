@@ -42,6 +42,13 @@ function Post() {
   useEffect(() => {
     getPost();
   }, [auth.isAuth, bidPopupBool]);
+  useEffect(() => {
+    setTimeout(() => {
+      detailsRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 100);
+  }, []);
   return (
     <>
       {post && (
