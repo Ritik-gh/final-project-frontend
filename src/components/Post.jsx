@@ -44,11 +44,11 @@ function Post() {
   }, [auth.isAuth, bidPopupBool]);
   useEffect(() => {
     setTimeout(() => {
-      detailsRef.current.scrollIntoView({
+      detailsRef.current?.scrollIntoView({
         behavior: "smooth",
       });
     }, 100);
-  }, []);
+  }, [detailsRef.current]);
   return (
     <>
       {post && (

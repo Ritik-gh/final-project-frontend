@@ -40,7 +40,12 @@ const Profile = () => {
       ) : (
         <div className="container-fluid header-space footer-space">
           <h5 className="mb-3 fw-bold">
-            Hello {user?.first_name}, Here are Your Active Posts
+            Hello {user?.first_name}
+            {posts && posts.length ? (
+              <span>, Here are Your Active Posts</span>
+            ) : (
+              ""
+            )}
           </h5>
           <section className="row">
             {posts?.map(

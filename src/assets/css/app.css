@@ -408,6 +408,8 @@ form label {
   align-items: center;
   cursor: pointer;
   border-top: 1px solid var(--dark-1);
+}
+.chat-row-group p:last-child {
   border-bottom: 1px solid var(--dark-1);
 }
 .chat-row-group p:hover, .chat-row-group p.active {

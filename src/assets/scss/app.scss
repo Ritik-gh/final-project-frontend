@@ -488,7 +488,9 @@ form {
     align-items: center;
     cursor: pointer;
     border-top: 1px solid $dark-1;
-    border-bottom: 1px solid $dark-1;
+    &:last-child {
+      border-bottom: 1px solid $dark-1;
+    }
     &:hover,
     &.active {
       background-color: $light-4;
