@@ -111,12 +111,11 @@ const PostAd = () => {
       setItemDescriptionError("");
       greenFormFields++;
     }
-    if (!imageUploaderRef.current.children[0].files) {
+    if (imageUploaderRef.current.children[0].files.length === 0) {
       setItemImgStatus(false);
       setItemImgMsg("We don't sell stuff which we have not seen!");
     } else {
       setItemImgStatus(true);
-      setItemImgMsg("");
       greenFormFields++;
     }
     // finally
