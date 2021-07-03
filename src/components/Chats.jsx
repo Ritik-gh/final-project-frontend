@@ -6,6 +6,7 @@ import { Auth } from "../App.js";
 import socketIOClient, { io } from "socket.io-client";
 import useIsMobile from "../customHooks/useIsMobile";
 import leftArrow from "../assets/images/menu-right.svg";
+import { v4 as uuid } from "uuid";
 
 const socket = io(baseUrl, {
   auth: {
@@ -37,6 +38,17 @@ const Chats = () => {
   const [bidderChat, setBidderChat] = useState();
   const msgInputRef = useRef();
 
+  const chatsHaveBidderId = () => {
+    const results = chats?.filter((chat) => {
+      return chat.enduser.id == bidderId;
+    });
+    if (results?.length === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const getChats = async () => {
     try {
       setLoading(true);
@@ -47,16 +59,9 @@ const Chats = () => {
       });
       const data = await response.json();
       setChats(data);
-      if (!bidderId) {
-        setActiveChat(data[0]);
-      } else if (bidderId && chatsHaveBidderId) {
-        const chat = chats?.filter((chat) => {
-          return chat.enduser.id == bidderId;
-        })[0];
-        setActiveChat(chat);
-        console.log("I just got triggered", chat);
-      }
+
       setLoading(false);
+      console.log("I just got triggered", activeChat);
       console.log("user chats", data);
     } catch (err) {
       console.log(err);
@@ -81,10 +86,8 @@ const Chats = () => {
         },
         msgs: [],
       };
-      if (!chatsHaveBidderId()) {
-        setActiveChat(tempObj);
-        setBidderChat(tempObj);
-      }
+
+      setBidderChat(tempObj);
 
       console.log("profile data", data);
       setLoading(false);
@@ -123,35 +126,32 @@ const Chats = () => {
     [chatSectionRef.current]
   );
 
-  const chatsHaveBidderId = useCallback(() => {
-    const results = chats?.filter((chat) => {
-      return chat.enduser.id == bidderId;
-    });
-    if (results?.length === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [chats?.length]);
-
-  function handleChatClick(e, type) {
+  const handleChatClick = (e, type) => {
+    console.log(activeChat, "handle click");
     const recentElement = document.getElementById(activeChat?.enduser.id);
-    if (recentElement.classList.contains("active")) {
-      recentElement.classList.remove("active");
+    if (recentElement) {
+      if (recentElement.classList.contains("active")) {
+        recentElement.classList.remove("active");
+      }
+      if (type === 1) {
+        setActiveChat(bidderChat);
+      } else {
+        const chat = chats.filter((chat) => {
+          return chat.enduser.id == e.target.id;
+        })[0];
+        setActiveChat(chat);
+      }
+      // !e.target.classList.contains("active")
+      if (
+        !chatSectionRef.current
+          .closest(".chat-div")
+          .classList.contains("active")
+      ) {
+        // e.target.classList.add("active");
+        chatSectionRef.current.closest(".chat-div").classList.add("active");
+      }
     }
-    if (type === 1) {
-      setActiveChat(bidderChat);
-    } else {
-      const chat = chats.filter((chat) => {
-        return chat.enduser.id == e.target.id;
-      })[0];
-      setActiveChat(chat);
-    }
-    if (!e.target.classList.contains("active")) {
-      e.target.classList.add("active");
-      chatSectionRef.current.closest(".chat-div").classList.add("active");
-    }
-  }
+  };
 
   function sendMsg() {
     socket.emit("send_msg", {
@@ -170,9 +170,29 @@ const Chats = () => {
   }, []);
 
   useEffect(() => {
-    bidderId && getProfile();
     getChats();
+    bidderId && getProfile();
   }, [auth.isAuth]);
+
+  useEffect(() => {
+    if (!bidderId) {
+      setActiveChat(chats && chats[0]);
+    } else if (bidderId && chatsHaveBidderId) {
+      const chat = chats?.filter((chat) => {
+        return chat.enduser.id == bidderId;
+      })[0];
+      setActiveChat(chat);
+    } else if (!chatsHaveBidderId()) {
+      setActiveChat(bidderChat);
+      console.log(
+        "active chat profile data",
+        chatsHaveBidderId(),
+        activeChat,
+        chats
+      );
+    }
+    console.log("I am active chat", activeChat);
+  }, [chats]);
 
   useEffect(() => {
     if (activeChat?.msgs.length) {
@@ -186,6 +206,17 @@ const Chats = () => {
     }
   }, [activeChat, chatSectionRef.current]);
 
+  console.log("chats have bidder id", chatsHaveBidderId());
+
+  useEffect(() => {
+    const activeElement = document.getElementById(activeChat?.enduser.id);
+    if (activeElement) {
+      if (!activeElement.classList.contains("active")) {
+        activeElement.classList.add("active");
+      }
+    }
+  }, [activeChat]);
+
   return (
     <>
       <div className={`container-fluid`}>
@@ -198,10 +229,10 @@ const Chats = () => {
             <section className="row position-relative">
               <article className="col-md-4 px-0">
                 <div className="chat-row-group">
-                  {(chats?.length === 0 || !chatsHaveBidderId()) && (
+                  {(chats?.length === 0 ||
+                    (bidderId && !chatsHaveBidderId())) && (
                     <p
                       id={bidderChat?.enduser.id}
-                      className="active"
                       onClick={(e) => handleChatClick(e, 1)}
                     >
                       {bidderChat?.enduser.first_name +
@@ -214,14 +245,7 @@ const Chats = () => {
                       <p
                         onClick={(e) => handleChatClick(e, 2)}
                         id={chat.enduser.id}
-                        key={chat.enduser}
-                        className={
-                          (chatsHaveBidderId() &&
-                            bidderId == chat.enduser.id) ||
-                          (!isMobile && index === 0 && !chatsHaveBidderId())
-                            ? "active"
-                            : ""
-                        }
+                        key={uuid()}
                       >
                         {chat.enduser.first_name + " " + chat.enduser.last_name}
                       </p>
@@ -258,7 +282,7 @@ const Chats = () => {
                             className={`chat-msg ${
                               msg.type === "sent" ? "right" : "left"
                             }`}
-                            key={index}
+                            key={uuid()}
                           >
                             <span>{msg.msg}</span>
                           </div>

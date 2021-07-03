@@ -44,26 +44,30 @@ const Profile = () => {
             {posts && posts.length ? (
               <span>, Here are Your Active Posts</span>
             ) : (
-              ""
+              <span>, You haven't created any post yet!</span>
             )}
           </h5>
           <section className="row">
-            {posts?.map(
-              (post, index) =>
-                post.post_status === "unsold" && (
-                  <div
-                    className="col-6 col-md-4 col-xl-3"
-                    index={Date.now() - index}
-                  >
-                    <PostCard
-                      key={index + post.id}
-                      {...post}
-                      clickFunc={() => {
-                        history.push(`/post/${post.post_id}`);
-                      }}
-                    />
-                  </div>
-                )
+            {posts?.length > 0 ? (
+              posts?.map(
+                (post, index) =>
+                  post.post_status === "unsold" && (
+                    <div
+                      className="col-6 col-md-4 col-xl-3"
+                      index={Date.now() - index}
+                    >
+                      <PostCard
+                        key={index + post.id}
+                        {...post}
+                        clickFunc={() => {
+                          history.push(`/post/${post.post_id}`);
+                        }}
+                      />
+                    </div>
+                  )
+              )
+            ) : (
+              <h5 className="centered-msg">Your posts would appear here</h5>
             )}
           </section>
         </div>
