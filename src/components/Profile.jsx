@@ -4,7 +4,7 @@ import baseUrl from "../config";
 import PostCard from "./sub/PostCard.jsx";
 import { Auth } from "../App.js";
 import useIsMobile from "../customHooks/useIsMobile";
-
+import ChangePasswordPopup from "./sub/ChangePasswordPopup.jsx";
 const Profile = () => {
   const auth = useContext(Auth);
   const history = useHistory();
@@ -12,6 +12,7 @@ const Profile = () => {
   const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(false);
   const isMobile = useIsMobile();
+  const [changePasswordPopup, setChangePasswordPopup] = useState(false);
   const getProfile = async () => {
     try {
       setLoading(true);
@@ -35,6 +36,10 @@ const Profile = () => {
   }, [auth.isAuth]);
   return (
     <>
+      <ChangePasswordPopup
+        show={changePasswordPopup}
+        closeFunc={setChangePasswordPopup}
+      />
       {loading ? (
         <article className="loader" />
       ) : (
@@ -70,6 +75,12 @@ const Profile = () => {
               <h5 className="centered-msg">Your posts would appear here</h5>
             )}
           </section>
+          <button
+            className="centered-msg center-bottom btn-v1"
+            onClick={() => setChangePasswordPopup(true)}
+          >
+            Change Password
+          </button>
         </div>
       )}
     </>
