@@ -32,9 +32,7 @@ const ChangePasswordPopup = (props) => {
         headers: {
           auth: window.localStorage.token,
         },
-        body: {
-          newPassword: JSON.stringify(password),
-        },
+        body: JSON.stringify({ newPassword: password }),
       });
       const data = await response.json();
       console.log(data.status, data.msg);

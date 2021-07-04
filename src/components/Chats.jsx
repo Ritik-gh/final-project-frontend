@@ -31,7 +31,7 @@ const Chats = () => {
   const chatSectionRef = useRef();
   const auth = useContext(Auth);
   const history = useHistory();
-  const [chats, setChats] = useState();
+  const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState();
   const [msg, setMsg] = useState();
   const [loading, setLoading] = useState(true);
@@ -97,34 +97,32 @@ const Chats = () => {
     }
   };
 
-  function displaySentMsg() {
+  // const displaySentMsg = () => {
+  //   const divTag = document.createElement("DIV");
+  //   const spanTag = document.createElement("SPAN");
+  //   spanTag.innerText = msg;
+  //   divTag.classList = "chat-msg right";
+  //   divTag.appendChild(spanTag);
+  //   console.log(chatSectionRef.current.children);
+  //   chatSectionRef.current?.appendChild(divTag);
+  //   divTag.scrollIntoView({
+  //     behavior: "smooth",
+  //   });
+  //   setMsg("");
+  // };
+
+  const displayReceivedMsg = (msg) => {
     const divTag = document.createElement("DIV");
     const spanTag = document.createElement("SPAN");
     spanTag.innerText = msg;
-    divTag.classList = "chat-msg right";
+    divTag.classList = "chat-msg left";
     divTag.appendChild(spanTag);
-    chatSectionRef.current.appendChild(divTag);
+    chatSectionRef.current?.appendChild(divTag);
     divTag.scrollIntoView({
       behavior: "smooth",
     });
     setMsg("");
-  }
-
-  const displayReceivedMsg = useCallback(
-    (msg) => {
-      const divTag = document.createElement("DIV");
-      const spanTag = document.createElement("SPAN");
-      spanTag.innerText = msg;
-      divTag.classList = "chat-msg left";
-      divTag.appendChild(spanTag);
-      chatSectionRef.current?.appendChild(divTag);
-      divTag.scrollIntoView({
-        behavior: "smooth",
-      });
-      setMsg("");
-    },
-    [chatSectionRef.current]
-  );
+  };
 
   const handleChatClick = (e, type) => {
     console.log(activeChat, "handle click");
@@ -158,13 +156,42 @@ const Chats = () => {
       receiverId: activeChat.enduser.id,
       msg: msg,
     });
-    displaySentMsg();
+    activeChat.msgs.push({
+      type: "sent",
+      msg: msg,
+    });
+    setMsg("");
     msgInputRef.current.focus();
   }
 
   useEffect(() => {
-    socket.on("receive_msg", (msg) => {
-      console.log(msg);
+    socket.on("receive_msg", ({ msg, senderId }) => {
+      console.log(msg, "from", senderId);
+      const incomingMsg = {
+        type: "received",
+        msg: msg,
+      };
+      if (activeChat) {
+        if (activeChat.enduser.id == senderId) {
+          activeChat.msgs.push(incomingMsg);
+          console.log("active chat", activeChat);
+        }
+        if (bidderId) {
+          if (chatsHaveBidderId) {
+            const chat = chats?.filter((chat) => {
+              return chat.enduser.id == senderId;
+            });
+            chat[0].msgs.push(incomingMsg);
+          } else if (bidderId == senderId) {
+            bidderChat?.msgs.push(incomingMsg);
+          }
+        } else {
+          const chat = chats?.filter((chat) => {
+            return chat.enduser.id == senderId;
+          });
+          chat[0].msgs.push(incomingMsg);
+        }
+      }
       displayReceivedMsg(msg);
     });
   }, []);
@@ -177,12 +204,12 @@ const Chats = () => {
   useEffect(() => {
     if (!bidderId) {
       setActiveChat(chats && chats[0]);
-    } else if (bidderId && chatsHaveBidderId) {
+    } else if (bidderId && chatsHaveBidderId()) {
       const chat = chats?.filter((chat) => {
         return chat.enduser.id == bidderId;
       })[0];
       setActiveChat(chat);
-    } else if (!chatsHaveBidderId()) {
+    } else if (bidderId && !chatsHaveBidderId()) {
       setActiveChat(bidderChat);
       console.log(
         "active chat profile data",
@@ -196,26 +223,22 @@ const Chats = () => {
 
   useEffect(() => {
     if (activeChat?.msgs.length) {
-      setTimeout(() => {
-        chatSectionRef.current?.children[
-          chatSectionRef.current?.children.length - 1
-        ].scrollIntoView({
-          behavior: "smooth",
-        });
-      }, 100);
+      chatSectionRef.current?.children[
+        chatSectionRef.current?.children.length - 1
+      ].scrollIntoView({
+        behavior: "smooth",
+      });
     }
-  }, [activeChat, chatSectionRef.current]);
+  }, [activeChat?.msgs.length, chatSectionRef.current]);
 
   console.log("chats have bidder id", chatsHaveBidderId());
 
   useEffect(() => {
     const activeElement = document.getElementById(activeChat?.enduser.id);
-    if (activeElement) {
-      if (!activeElement.classList.contains("active")) {
-        activeElement.classList.add("active");
-      }
+    if (activeElement && !activeElement.classList.contains("active")) {
+      activeElement.classList.add("active");
     }
-  }, [activeChat]);
+  });
 
   return (
     <>
@@ -229,17 +252,17 @@ const Chats = () => {
             <section className="row position-relative">
               <article className="col-md-4 px-0">
                 <div className="chat-row-group">
-                  {(chats?.length === 0 ||
-                    (bidderId && !chatsHaveBidderId())) && (
-                    <p
-                      id={bidderChat?.enduser.id}
-                      onClick={(e) => handleChatClick(e, 1)}
-                    >
-                      {bidderChat?.enduser.first_name +
-                        " " +
-                        bidderChat?.enduser.last_name}
-                    </p>
-                  )}
+                  {(chats?.length < 1 || (bidderId && !chatsHaveBidderId())) &&
+                    bidderChat && (
+                      <p
+                        id={bidderChat?.enduser.id}
+                        onClick={(e) => handleChatClick(e, 1)}
+                      >
+                        {bidderChat?.enduser.first_name +
+                          " " +
+                          bidderChat?.enduser.last_name}
+                      </p>
+                    )}
                   {chats?.length > 0 &&
                     chats?.map((chat, index) => (
                       <p
