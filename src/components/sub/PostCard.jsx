@@ -1,5 +1,6 @@
 import { useState } from "react";
 import sampleImageOne from "../../assets/images/sample-1.jpg";
+
 function PostCard({
   item_name,
   base_price,

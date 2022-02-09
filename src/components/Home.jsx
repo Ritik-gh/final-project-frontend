@@ -8,6 +8,7 @@ import { getPosts } from "@/store/actions";
 const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const posts = useSelector((state) => state.posts);
 
   useEffect(() => {

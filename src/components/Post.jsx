@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext, useRef, useCallback } from "react";
 import sampleImageOne from "../assets/images/sample-1.jpg";
 import BidPopup from "./sub/BidPopup.jsx";
 import ContactPopup from "./sub/ContactPopup.jsx";
@@ -17,6 +17,7 @@ function Post() {
   const [markAsSoldPopup, setMarkAsSoldPopup] = useState(false);
   const detailsRef = useRef();
   console.log("params", id);
+
   const getPost = async () => {
     try {
       let response;
@@ -34,21 +35,24 @@ function Post() {
       } else {
         setPost(data);
       }
-      console.log("post data", data);
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
     getPost();
   }, [auth.isAuth, bidPopupBool]);
+
   useEffect(() => {
-    setTimeout(() => {
-      detailsRef.current?.scrollIntoView({
+    console.log("done", detailsRef.current);
+    if (detailsRef.current) {
+      detailsRef.current.scrollIntoView({
         behavior: "smooth",
       });
-    }, 100);
-  }, [detailsRef.current]);
+    }
+  }, [post]);
+
   return (
     <>
       {post && (
