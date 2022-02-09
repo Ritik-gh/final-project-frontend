@@ -1,38 +1,29 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import PostCard from "./sub/PostCard.jsx";
-import baseUrl from "../config.js";
+import { useDispatch, useSelector } from "react-redux";
+
+import PostCard from "@/components/sub/PostCard.jsx";
+import actions from "@/store/actions";
+
 const Home = () => {
   const history = useHistory();
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const getPosts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${baseUrl}/get-posts`);
-      let data = await response.json();
-      setPosts(data);
-      setLoading(false);
-      console.log("posts", data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts);
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    console.log(actions);
+    dispatch(actions.getPosts());
+  }, [dispatch]);
 
   return (
     <>
-      {loading ? (
+      {posts.loading ? (
         <article className="loader" />
       ) : (
         <div className="container-fluid header-space footer-space">
           <section className="row">
-            {posts && posts.length > 0 ? (
-              posts.map(
+            {posts.data && posts.data.length > 0 ? (
+              posts.data.map(
                 (post, index) =>
                   post.post_status === "unsold" && (
                     <div

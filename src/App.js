@@ -6,6 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/app.css";
 // import Router from "./router.js";
 
+import { Provider } from "react-redux";
+import store from "@/store/store";
+
 export const Auth = createContext();
 
 const App = () => {
@@ -21,13 +24,15 @@ const App = () => {
 
   return (
     <>
-      <Auth.Provider value={Authorization}>
-        <Header />
-        <main>
-          <Router />
-        </main>
-        <Footer />
-      </Auth.Provider>
+      <Provider store={store}>
+        <Auth.Provider value={Authorization}>
+          <Header />
+          <main>
+            <Router />
+          </main>
+          <Footer />
+        </Auth.Provider>
+      </Provider>
     </>
   );
 };
