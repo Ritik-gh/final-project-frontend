@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import PostCard from "@/components/sub/PostCard.jsx";
-import actions from "@/store/actions";
+import { getPosts } from "@/store/actions";
 
 const Home = () => {
   const history = useHistory();
@@ -11,8 +11,7 @@ const Home = () => {
   const posts = useSelector((state) => state.posts);
 
   useEffect(() => {
-    console.log(actions);
-    dispatch(actions.getPosts());
+    dispatch(getPosts());
   }, [dispatch]);
 
   return (
