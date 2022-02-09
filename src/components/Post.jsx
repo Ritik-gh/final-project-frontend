@@ -45,8 +45,8 @@ function Post() {
         <BidPopup
           show={bidPopupBool}
           closeFunc={setBidPopupBool}
-          postTitle={post?.item_name}
-          postId={post?.post_id}
+          postTitle={post.data?.item_name}
+          postId={post.data?.post_id}
           highestPrice={
             post?.highest_bid ? post?.highest_bid : post?.base_price
           }
@@ -57,13 +57,13 @@ function Post() {
           <MarkAsSoldPopup
             show={markAsSoldPopup}
             closeFunc={setMarkAsSoldPopup}
-            itemName={post?.item_name}
-            postId={post?.post_id}
+            itemName={post.data?.item_name}
+            postId={post.data?.post_id}
           />
           <ContactPopup
             show={contactPopupBool}
             closeFunc={setContactPopupBool}
-            {...post.bidderDetails}
+            {...post.data.bidderDetails}
             itemName={post?.item_name}
           />
         </>
