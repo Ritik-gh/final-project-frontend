@@ -1,47 +1,26 @@
-import { useEffect, useState, useContext, useRef, useCallback } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import sampleImageOne from "../assets/images/sample-1.jpg";
 import BidPopup from "./sub/BidPopup.jsx";
 import ContactPopup from "./sub/ContactPopup.jsx";
 import MarkAsSoldPopup from "./sub/MarkAsSoldPopup.jsx";
 import { useParams } from "react-router-dom";
-import baseUrl from "../config.js";
+import { getPost } from "@/store/actions";
 import { Auth } from "../App.js";
 
 function Post() {
   const auth = useContext(Auth);
   const { id } = useParams();
-  const [post, setPost] = useState();
-  const [bidderDetails, setBidderDetails] = useState();
+  const dispatch = useDispatch();
   const [bidPopupBool, setBidPopupBool] = useState(false);
   const [contactPopupBool, setContactPopupBool] = useState(false);
   const [markAsSoldPopup, setMarkAsSoldPopup] = useState(false);
   const detailsRef = useRef();
-  console.log("params", id);
 
-  const getPost = async () => {
-    try {
-      let response;
-      if (window.localStorage.token) {
-        response = await fetch(
-          `${baseUrl}/get-posts?postId=${id}&user=${window.localStorage.token}`
-        );
-      } else {
-        response = await fetch(`${baseUrl}/get-posts?postId=${id}`);
-      }
-      let data = await response.json();
-      if (data.bidderDetails) {
-        setBidderDetails(data.bidderDetails);
-        setPost(data.post);
-      } else {
-        setPost(data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const post = useSelector((state) => state.post);
 
   useEffect(() => {
-    getPost();
+    dispatch(getPost(id));
   }, [auth.isAuth, bidPopupBool]);
 
   useEffect(() => {
@@ -55,7 +34,7 @@ function Post() {
 
   return (
     <>
-      {post && (
+      {post.data && (
         <BidPopup
           show={bidPopupBool}
           closeFunc={setBidPopupBool}
@@ -66,7 +45,7 @@ function Post() {
           }
         />
       )}
-      {bidderDetails && (
+      {post.bidderDetails && (
         <>
           <MarkAsSoldPopup
             show={markAsSoldPopup}
@@ -77,18 +56,20 @@ function Post() {
           <ContactPopup
             show={contactPopupBool}
             closeFunc={setContactPopupBool}
-            {...bidderDetails}
+            {...post.bidderDetails}
             itemName={post?.item_name}
           />
         </>
       )}
       <div className="container-fluid details footer-space">
-        {post && (
+        {post.loading ? (
+          <article className="loader" />
+        ) : post.data ? (
           <>
             <section className="row">
               <article className="col">
                 <figure className="img-wrapper">
-                  <img src={post.item_image} alt="" className="w-100" />
+                  <img src={post.data.item_image} alt="" className="w-100" />
                 </figure>
               </article>
             </section>
@@ -96,38 +77,40 @@ function Post() {
               className="d-flex align-items-center justify-content-between w-100 my-3"
               ref={detailsRef}
             >
-              <p className="item-name pe-2">{post.item_name}</p>
+              <p className="item-name pe-2">{post.data.item_name}</p>
               <p className="item-age ps-2">
-                {post.items_estimated_age} years old
+                {post.data.items_estimated_age} years old
               </p>
             </div>
             <table>
               <tr>
                 <td>Location </td>
-                <td>{post.location}</td>
+                <td>{post.data.location}</td>
               </tr>
               <tr>
                 <td>
                   <span>Current Bid Price</span>
                 </td>
                 <td>
-                  {post.highest_bid ? `₹${post.highest_bid}` : `No Bid Yet`}
+                  {post.data.highest_bid
+                    ? `₹${post.data.highest_bid}`
+                    : `No Bid Yet`}
                 </td>
               </tr>
               <tr>
                 <td>
                   <span>Base Price </span>
                 </td>
-                <td>₹{post.base_price}</td>
+                <td>₹{post.data.base_price}</td>
               </tr>
 
               <tr>
                 <td>Description </td>
-                <td>{post.about}</td>
+                <td>{post.data.about}</td>
               </tr>
             </table>
-            {post.postedBySelf ? (
-              bidderDetails && (
+            {post.data.postedBySelf ? (
+              post.bidderDetails && (
                 <>
                   <div className="d-flex align-items-center justify-content-center">
                     <button
@@ -161,6 +144,8 @@ function Post() {
               </button>
             )}
           </>
+        ) : (
+          "No Post found"
         )}
       </div>
     </>
