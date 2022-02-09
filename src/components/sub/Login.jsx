@@ -1,13 +1,15 @@
 import { useState, useContext } from "react";
-import baseUrl from "../../config.js";
+import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { Auth } from "../../App.js";
 import { Modal } from "react-bootstrap";
+import { login } from "@/api/apiServices";
+import { LOGIN } from "@/store/types";
 
 const Login = (props) => {
-  const auth = useContext(Auth);
   const history = useHistory();
-  function handleLogin(e) {
+  const dispatch = useDispatch();
+
+  async function handleLogin(e) {
     e.preventDefault();
     const email = document.querySelector("#email");
     const password = document.querySelector("#password");
@@ -38,34 +40,24 @@ const Login = (props) => {
     }
 
     if (formIsValid) {
-      fetch(`${baseUrl}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.value,
-          password: password.value,
-        }),
-      })
-        .then((response) => response.text())
-        .then((data) => {
-          console.log(data);
-          if (data == "invalid email") {
-            email.nextElementSibling.innerText =
-              "Seems like there is no user with this email, try registering first";
-          } else if (data == "invalid password") {
-            password.nextElementSibling.innerText = "Password didn't match";
-          } else if (data) {
-            window.localStorage.token = data;
-            // props.setAuth(true);
-            auth.setAuth(true);
-            props.closeFunc(false);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        const response = await login(email.value, password.value);
+        console.log("login response", response);
+        if (response.data == "invalid email") {
+          email.nextElementSibling.innerText =
+            "Seems like there is no user with this email, try registering first";
+        } else if (response.data == "invalid password") {
+          password.nextElementSibling.innerText = "Password didn't match";
+        } else if (response.data) {
+          dispatch({
+            type: LOGIN,
+            payload: response.data,
+          });
+          props.closeFunc(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   return (

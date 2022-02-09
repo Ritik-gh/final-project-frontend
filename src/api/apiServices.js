@@ -1,21 +1,29 @@
 import axiosInstance from "./api";
 
-const apiServices = {
-  async getPosts() {
-    const response = await axiosInstance().get(`get-posts`);
-    return response;
-  },
-  async getPost(id) {
-    let response;
-    if (window.localStorage.token) {
-      response = await axiosInstance().get(
-        `get-posts?postId=${id}&user=${window.localStorage.token}`
-      );
-    } else {
-      response = await axiosInstance().get(`get-posts?postId=${id}`);
-    }
-    return response;
-  },
+export const get_posts = () => {
+  return axiosInstance().get(`get-posts`);
 };
 
-export default apiServices;
+export const get_post = (id) => {
+  if (window.localStorage.token) {
+    return axiosInstance().get(
+      `get-posts?postId=${id}&user=${window.localStorage.token}`
+    );
+  } else {
+    return axiosInstance().get(`get-posts?postId=${id}`);
+  }
+};
+
+export const post_ad = (data) => {
+  return axiosInstance().post(`post-ad`, {
+    method: "POST",
+    body: data,
+  });
+};
+
+export const login = (email, password) => {
+  return axiosInstance().post(`login`, {
+    email: email,
+    password: password,
+  });
+};

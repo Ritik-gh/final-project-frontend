@@ -5,6 +5,8 @@ import {
   GET_POST_FAILURE,
   GET_POST_SUCCESS,
   GET_POST_LOADING,
+  LOGIN,
+  LOGOUT,
 } from "./types";
 
 let initialState = {
@@ -13,6 +15,10 @@ let initialState = {
     loading: false,
     data: {},
     bidderDetails: {},
+  },
+  user: {
+    token: window.localStorage.token,
+    isAuthorized: window.localStorage.token ? true : false,
   },
 };
 
@@ -72,6 +78,24 @@ const reducer = (state = initialState, action) => {
           loading: true,
           data: {},
           bidderDetails: {},
+        },
+      };
+    case LOGIN:
+      window.localStorage.token = payload;
+      return {
+        ...state,
+        user: {
+          token: payload,
+          isAuthorized: true,
+        },
+      };
+    case LOGOUT:
+      window.localStorage.token = "";
+      return {
+        ...state,
+        user: {
+          token: "",
+          isAuthorized: false,
         },
       };
     default:

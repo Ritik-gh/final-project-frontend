@@ -6,22 +6,24 @@ import ContactPopup from "./sub/ContactPopup.jsx";
 import MarkAsSoldPopup from "./sub/MarkAsSoldPopup.jsx";
 import { useParams } from "react-router-dom";
 import { getPost } from "@/store/actions";
-import { Auth } from "../App.js";
+import LoginPopup from "@/components/sub/Login";
 
 function Post() {
-  const auth = useContext(Auth);
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  const [loginPopup, setLoginPopup] = useState(false);
   const [bidPopupBool, setBidPopupBool] = useState(false);
   const [contactPopupBool, setContactPopupBool] = useState(false);
   const [markAsSoldPopup, setMarkAsSoldPopup] = useState(false);
   const detailsRef = useRef();
 
   const post = useSelector((state) => state.post);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(getPost(id));
-  }, [auth.isAuth, bidPopupBool]);
+  }, [dispatch, user.isAuthorized, bidPopupBool, id]);
 
   useEffect(() => {
     console.log("done", detailsRef.current);
@@ -34,6 +36,11 @@ function Post() {
 
   return (
     <>
+      <LoginPopup
+        show={loginPopup}
+        closeFunc={setLoginPopup}
+        subtitle="In order to bid, You need to login first."
+      />
       {post.data && (
         <BidPopup
           show={bidPopupBool}
@@ -69,7 +76,14 @@ function Post() {
             <section className="row">
               <article className="col">
                 <figure className="img-wrapper">
-                  <img src={post.data.item_image} alt="" className="w-100" />
+                  <img
+                    src={
+                      post.data.item_image ||
+                      "https://dummyimage.com/1920x1080/d4d4d4/fff.png&text=Imagine the item"
+                    }
+                    alt=""
+                    className="w-100"
+                  />
                 </figure>
               </article>
             </section>
@@ -137,7 +151,9 @@ function Post() {
               <button
                 className="btn-v1 mx-auto my-3"
                 onClick={() => {
-                  setBidPopupBool(true);
+                  user.isAuthorized
+                    ? setBidPopupBool(true)
+                    : setLoginPopup(true);
                 }}
               >
                 Buy

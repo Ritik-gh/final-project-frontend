@@ -1,24 +1,25 @@
 import { useContext, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import useIsMobile from "../../customHooks/useIsMobile";
-import { Auth } from "../../App.js";
+import { useSelector } from "react-redux";
+import useIsMobile from "@/customHooks/useIsMobile";
 import LoginPopup from "./Login";
-import home from "../../assets/images/home.svg";
-import homeFill from "../../assets/images/home-fill.svg";
-import post from "../../assets/images/post.svg";
-import postFill from "../../assets/images/post-fill.svg";
-import chat from "../../assets/images/chat.svg";
-import chatFill from "../../assets/images/chat-fill.svg";
-import settings from "../../assets/images/settings.svg";
-import settingsFill from "../../assets/images/settings-fill.svg";
+import home from "@/assets/images/home.svg";
+import homeFill from "@/assets/images/home-fill.svg";
+import post from "@/assets/images/post.svg";
+import postFill from "@/assets/images/post-fill.svg";
+import chat from "@/assets/images/chat.svg";
+import chatFill from "@/assets/images/chat-fill.svg";
+import settings from "@/assets/images/settings.svg";
+import settingsFill from "@/assets/images/settings-fill.svg";
+
 const Footer = () => {
   const isMobile = useIsMobile();
-  const auth = useContext(Auth);
   const history = useHistory();
   const { pathname } = useLocation();
   const [loginPopup, setLoginPopup] = useState(false);
   const [loginMsg, setLoginMsg] = useState("");
   const [activeIcon, setActiveIcon] = useState(pathname === "/" && 1);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     if (pathname === "/") {
@@ -50,9 +51,8 @@ const Footer = () => {
         </figure>
         <figure
           onClick={() => {
-            if (!auth.isAuth) {
+            if (!user.isAuthorized) {
               setLoginMsg("You need to login first in order to post!");
-
               setLoginPopup(true);
             } else {
               history.push("/post-ad");
@@ -62,7 +62,7 @@ const Footer = () => {
           <img src={activeIcon === 2 ? postFill : post} alt="" />
         </figure>
 
-        {auth.isAuth && (
+        {user.isAuthorized && (
           <>
             <figure
               onClick={() => {

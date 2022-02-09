@@ -1,18 +1,19 @@
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import baseUrl from "../config";
+import baseUrl from "@/config";
 import PostCard from "./sub/PostCard.jsx";
-import { Auth } from "../App.js";
 import useIsMobile from "../customHooks/useIsMobile";
 import ChangePasswordPopup from "./sub/ChangePasswordPopup.jsx";
+import { useSelector } from "react-redux";
+
 const Profile = () => {
-  const auth = useContext(Auth);
   const history = useHistory();
-  const [user, setUser] = useState();
+  const [userDetails, setUserDetails] = useState();
   const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(false);
   const isMobile = useIsMobile();
   const [changePasswordPopup, setChangePasswordPopup] = useState(false);
+  const user = useSelector((state) => state.user);
   const getProfile = async () => {
     try {
       setLoading(true);
@@ -22,7 +23,7 @@ const Profile = () => {
         },
       });
       const data = await response.json();
-      setUser(data.user);
+      setUserDetails(data.user);
       setPosts(data.posts);
       setLoading(false);
       console.log(data);
@@ -33,7 +34,7 @@ const Profile = () => {
 
   useEffect(() => {
     getProfile();
-  }, [auth.isAuth]);
+  }, [user.isAuthorized]);
   return (
     <>
       <ChangePasswordPopup
@@ -45,7 +46,7 @@ const Profile = () => {
       ) : (
         <div className="container-fluid header-space footer-space">
           <h5 className="mb-3 fw-bold">
-            Hello {user?.first_name}
+            Hello {userDetails?.first_name}
             {posts && posts.length ? (
               <span>, Here are Your Active Posts</span>
             ) : (

@@ -5,3 +5,6 @@ export const GET_POSTS_FAILURE = "GET_POSTS_FAILURE";
 export const GET_POST_LOADING = "GET_POST_LOADING";
 export const GET_POST_SUCCESS = "GET_POST_SUCCESS";
 export const GET_POST_FAILURE = "GET_POST_FAILURE";
+
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";

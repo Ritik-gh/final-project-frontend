@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import baseUrl from "../../config.js";
 import { Modal } from "react-bootstrap";
+
 const Register = (props) => {
   const history = useHistory();
   const location = useLocation();
+
   function handleRegister(e) {
     e.preventDefault();
     const firstName = document.getElementById("first_name");
@@ -13,6 +15,7 @@ const Register = (props) => {
     const phone = document.getElementById("phone");
     const password = document.getElementById("password");
     const confirmPassword = document.getElementById("confirm_password");
+
     let formIsValid = false;
     if (!firstName.value) {
       console.log(firstName.value);

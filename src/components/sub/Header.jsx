@@ -1,21 +1,26 @@
 import { useEffect, useState, useContext } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { Auth } from "../../App.js";
+import { useDispatch, useSelector } from "react-redux";
+
 import LoginPopup from "./Login";
 import RegisterPopup from "./Register";
-import useIsMobile from "../../customHooks/useIsMobile.js";
-import logo from "../../assets/images/logo.svg";
-import leftArrow from "../../assets/images/menu-right.svg";
+import useIsMobile from "@/customHooks/useIsMobile.js";
+import logo from "@/assets/images/logo.svg";
+import leftArrow from "@/assets/images/menu-right.svg";
+import { LOGOUT } from "@/store/types.js";
 
 const Header = () => {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
   const history = useHistory();
-  const auth = useContext(Auth);
+  const dispatch = useDispatch(false);
+
   const [loginPopup, setLoginPopup] = useState(false);
   const [registerPopup, setRegisterPopup] = useState(false);
   const [loginMsg, setLoginMsg] = useState("");
   const [showBackBtn, setShowBackBtn] = useState(false);
+  const user = useSelector((state) => state.user);
+
   useEffect(() => {
     if (pathname.startsWith("/post/") || pathname === "/profile") {
       setShowBackBtn(true);
@@ -23,6 +28,7 @@ const Header = () => {
       setShowBackBtn(false);
     }
   }, [pathname]);
+
   return (
     <>
       <LoginPopup
@@ -50,7 +56,7 @@ const Header = () => {
           </div>
           {!isMobile && (
             <div className="col-md-8 col-xl-6">
-              {!auth.isAuth ? (
+              {!user.isAuthorized ? (
                 <>
                   <span className="" onClick={() => setLoginPopup(true)}>
                     Login
@@ -80,8 +86,9 @@ const Header = () => {
                   <span
                     className=""
                     onClick={() => {
-                      window.localStorage.token = "";
-                      auth.setAuth(false);
+                      dispatch({
+                        type: LOGOUT,
+                      });
                       history.push("/");
                     }}
                   >
@@ -91,7 +98,7 @@ const Header = () => {
               )}
               <button
                 onClick={() => {
-                  if (!auth.isAuth) {
+                  if (!user.isAuthorized) {
                     setLoginPopup(true);
                     setLoginMsg("You need to login first in order to post!");
                   } else {

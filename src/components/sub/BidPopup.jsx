@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import baseUrl from "../../config.js";
 import { useHistory, useLocation } from "react-router-dom";
-// import { Auth } from "../../App.js";
 import { Modal } from "react-bootstrap";
 
 const BidPopup = (props) => {

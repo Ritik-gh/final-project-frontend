@@ -1,17 +1,21 @@
 import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import useIsMobile from "../customHooks/useIsMobile";
-import { Auth } from "../App.js";
+
 import LoginPopup from "./sub/Login";
 import RegisterPopup from "./sub/Register";
+import { LOGOUT } from "@/store/types";
 
 const Settings = () => {
   const isMobile = useIsMobile();
-  const auth = useContext(Auth);
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const [loginPopup, setLoginPopup] = useState(false);
   const [registerPopup, setRegisterPopup] = useState(false);
   const [loginMsg, setLoginMsg] = useState("");
+  const user = useSelector((state) => state.user);
 
   return (
     <>
@@ -22,7 +26,7 @@ const Settings = () => {
       />
       <RegisterPopup show={registerPopup} closeFunc={setRegisterPopup} />
       <div className="container-fluid header-space footer-space settings">
-        {!auth.isAuth ? (
+        {!user.isAuthorized ? (
           <>
             <p onClick={() => setLoginPopup(true)}>Login</p>
             <p onClick={() => setRegisterPopup(true)}>Register</p>
@@ -39,8 +43,9 @@ const Settings = () => {
             </p>
             <p
               onClick={() => {
-                window.localStorage.token = "";
-                auth.setAuth(false);
+                dispatch({
+                  type: LOGOUT,
+                });
                 history.push("/");
               }}
             >

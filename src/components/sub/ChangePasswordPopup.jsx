@@ -1,11 +1,9 @@
 import { useState, useContext } from "react";
 import baseUrl from "../../config.js";
 import { useHistory, useLocation } from "react-router-dom";
-import { Auth } from "../../App.js";
 import { Modal } from "react-bootstrap";
 
 const ChangePasswordPopup = (props) => {
-  const auth = useContext(Auth);
   const history = useHistory();
   const [password, setPassword] = useState();
   const [passwordError, setPasswordError] = useState();

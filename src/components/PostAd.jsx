@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import baseUrl from "../config.js";
 import { useHistory } from "react-router-dom";
+import { post_ad } from "@/api/apiServices";
+
 const PostAd = () => {
   const history = useHistory();
   const imageUploaderRef = useRef();
@@ -71,9 +72,9 @@ const PostAd = () => {
     } else {
       setItemImgMsg("Click here to upload!");
     }
-  });
+  }, []);
 
-  function handlePost(e) {
+  async function handlePost(e) {
     e.preventDefault();
     let greenFormFields = 0;
     // check errors
@@ -126,18 +127,8 @@ const PostAd = () => {
       data.append("basePrice", basePrice);
       data.append("description", itemDescription);
       data.append("img", imageUploaderRef.current.children[0].files[0]);
-
-      fetch(`${baseUrl}/post-ad`, {
-        method: "POST",
-        headers: {
-          // "Content-Type": "multipart/form-data",
-          auth: window.localStorage.token,
-        },
-        body: data,
-      })
-        .then((res) => res.text())
-        .then((data) => console.log("post msg", data))
-        .catch((err) => console.log(err));
+      const response = await post_ad(data);
+      console.log("add post response", response);
       history.push("/");
     }
   }

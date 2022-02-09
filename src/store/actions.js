@@ -6,7 +6,7 @@ import {
   GET_POST_SUCCESS,
   GET_POST_LOADING,
 } from "./types";
-import apiServices from "@/api/apiServices";
+import { get_posts, get_post } from "@/api/apiServices";
 
 export const getPosts = () => {
   return async function getPostsThunk(dispatch) {
@@ -14,7 +14,7 @@ export const getPosts = () => {
       type: GET_POSTS_LOADING,
     });
     try {
-      const response = await apiServices.getPosts();
+      const response = await get_posts();
       dispatch({
         type: GET_POSTS_SUCCESS,
         payload: response.data,
@@ -34,7 +34,7 @@ export const getPost = (id) => {
       type: GET_POST_LOADING,
     });
     try {
-      const response = await apiServices.getPost(id);
+      const response = await get_post(id);
       dispatch({
         type: GET_POST_SUCCESS,
         payload: response.data,

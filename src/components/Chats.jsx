@@ -1,11 +1,12 @@
-import { useState, useEffect, useContext, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import baseUrl from "../config";
 import PostCard from "./sub/PostCard.jsx";
-import { Auth } from "../App.js";
 import socketIOClient, { io } from "socket.io-client";
-import useIsMobile from "../customHooks/useIsMobile";
-import leftArrow from "../assets/images/menu-right.svg";
+import useIsMobile from "@/customHooks/useIsMobile";
+import leftArrow from "@/assets/images/menu-right.svg";
 import { v4 as uuid } from "uuid";
 
 const socket = io(baseUrl, {
@@ -29,7 +30,6 @@ const Chats = () => {
   const isMobile = useIsMobile();
   const { bidderId } = useParams();
   const chatSectionRef = useRef();
-  const auth = useContext(Auth);
   const history = useHistory();
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState();
@@ -37,6 +37,7 @@ const Chats = () => {
   const [loading, setLoading] = useState(true);
   const [bidderChat, setBidderChat] = useState();
   const msgInputRef = useRef();
+  const user = useSelector((state) => state.user);
 
   const chatsHaveBidderId = () => {
     const results = chats?.filter((chat) => {
@@ -199,7 +200,7 @@ const Chats = () => {
   useEffect(() => {
     getChats();
     bidderId && getProfile();
-  }, [auth.isAuth]);
+  }, [user.isAuthorized]);
 
   useEffect(() => {
     if (!bidderId) {

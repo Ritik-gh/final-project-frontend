@@ -6,6 +6,10 @@ function axiosInstance() {
     baseURL: `${BASEURL}`,
   });
 
+  if (window.localStorage.token) {
+    instance.defaults.headers.auth = window.localStorage.token;
+  }
+
   return instance;
 }
 
